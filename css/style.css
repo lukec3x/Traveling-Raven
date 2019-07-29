@@ -1,0 +1,21 @@
+body, 
+div {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #21170b;
+}
+
+main {
+    background-color: #58503d;
+    width: 70vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 50vh 50vh;
+    grid-template-areas: "top" "down";
+}
