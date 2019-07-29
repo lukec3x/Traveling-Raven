@@ -1,8 +1,5 @@
-body, 
-div {
-    margin: 0;
-    padding: 0;
-}
+body, div { margin: 0; padding: 0; }
+a { text-decoration: none; }
 
 body {
     display: flex;
@@ -18,4 +15,19 @@ main {
     display: grid;
     grid-template-rows: 50vh 50vh;
     grid-template-areas: "top" "down";
+}
+main section#top {
+    grid-area: top;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-bottom: 5px solid #21170b;
+}
+main section#top > a {
+    margin: 60px;
+}
+main section#down {
+    grid-area: down;
 }
