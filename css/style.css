@@ -22,12 +22,73 @@ main section#top {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    border-bottom: 5px solid #21170b;
 }
 main section#top > a {
     margin: 60px;
 }
+main section#top a > img{
+    width: 200px;
+    height: 138px;
+}
 main section#down {
     grid-area: down;
+
+    color: #fff;
+
+    justify-content: center;
+    flex-wrap: wrap;
+    display: flex;
+}
+main section#down div#linha {
+    background-color: #000;
+    height: 2px;
+    width: 85%;
+}
+    @media only screen and (max-width: 910px) {
+        main section#top {
+            flex-wrap: wrap;
+            align-content: center;
+        }
+        main section#top > a { margin: 0 5px; }
+        main > section {
+            margin-top: 20px;
+        }
+    }
+
+/* E N V I A R */
+main#env {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    display: flex;
+}
+main#env section div#pergaminho {
+    background-image: url(../img/escrever.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    width: 500px;
+    height: 500px;
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+main#env section div#pergaminho textarea{
+    background: none;
+    border: none;
+
+    height: 390px;
+    resize: none;
+    width: 324px;
+
+    margin-left: 40px;
+
+    /*Retira a borda brilhante do textarea*/
+    outline: none;
+}
+
+main a#voltar img {
+    margin-bottom: 10px;
+    width: 50px;
 }
