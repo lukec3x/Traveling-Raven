@@ -62,8 +62,13 @@ main#env {
     flex-wrap: wrap;
     display: flex;
 }
-main#env section div#pergaminho {
+main#env section#env div#pergaminho {
     background-image: url(../img/escrever.png);
+}
+main#env section#rec div#pergaminho {
+    background-image: url(../img/escrever2.png);
+}
+main#env section div#pergaminho {
     background-repeat: no-repeat;
     background-size: contain;
 
