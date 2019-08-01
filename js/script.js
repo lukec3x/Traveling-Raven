@@ -19,41 +19,12 @@ var naoEncontrado = true
 
 var part2 = document.getElementById('part2')
 
-function abreFechEnviar() {
-    if (statusEnv == 0) {
-        if (statusRec == 1) {
-            abreFechReceber()
-        }
-        statusEnv = 1
-        part2.style.display = 'flex'
-    } else {
-        statusEnv = 0
-        part2.style.display = 'none'
-    }
-}
-
-function abreFechReceber() {
-    if (statusRec == 0) {
-        if (statusEnv == 1) {
-            abreFechEnviar()
-        }
-        statusRec = 1
-        part2.style.display = 'flex'
-
-    } else {
-        statusRec = 0
-        part2.style.display = 'none'
-    }
-}
-
 function enviar() {
-    part2.innerHTML = "<textarea id=\"msg\"></textarea><button onclick=\"envTxt()\">Salvar</button>"
-    abreFechEnviar()
+    document.getElementById('envRec').innerHTML = ''
 }
 
 function receber() {
-    part2.innerHTML = "<input id=\"buscId\" type=\"text\"><button onclick=\"recTxt()\">Comfirmar</button><textarea id=\"msg\" readonly></textarea>"
-    abreFechReceber()
+    
 }
 
 function envTxt() {

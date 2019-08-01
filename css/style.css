@@ -56,19 +56,29 @@ main section#down div#linha {
     }
 
 /* E N V I A R */
-main#env {
+main#envRec {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     display: flex;
 }
-main#env section#env div#pergaminho {
+main#envRec section#env div#pergaminho {
     background-image: url(../img/escrever.png);
 }
-main#env section#rec div#pergaminho {
+main#envRec section#rec div#pergaminho {
     background-image: url(../img/escrever2.png);
 }
-main#env section div#pergaminho {
+main#envRec section#env {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+main#envRec section#env a img{
+    margin: 10px 0 0 55px;
+    width: 80px;
+}
+main#envRec section div#pergaminho {
     background-repeat: no-repeat;
     background-size: contain;
 
@@ -79,7 +89,7 @@ main#env section div#pergaminho {
     align-items: center;
     display: flex;
 }
-main#env section div#pergaminho textarea{
+main#envRec section div#pergaminho textarea{
     background: none;
     border: none;
 
