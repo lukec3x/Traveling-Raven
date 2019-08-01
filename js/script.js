@@ -20,7 +20,7 @@ var naoEncontrado = true
 var part2 = document.getElementById('part2')
 
 function enviar() {
-    document.getElementById('envRec').innerHTML = ''
+    document.getElementById('envRec').innerHTML = '<img href=\"\">'
 }
 
 function receber() {
