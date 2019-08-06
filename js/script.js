@@ -6,9 +6,9 @@ var firebaseConfig = {
     storageBucket: "",
     messagingSenderId: "762477456987",
     appId: "1:762477456987:web:ae3a6f9156c119a0"
-};
+}
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig)
 
 var statusEnv = 0
 var statusRec = 0
@@ -20,7 +20,23 @@ var naoEncontrado = true
 var part2 = document.getElementById('part2')
 
 function enviar() {
-    document.getElementById('envRec').innerHTML = '<img href=\"\">'
+    document.getElementById('envRec').innerHTML = '<canvas id=\"canvas\" width=\"600px\" height\"400px\" style=\"border: 1px solid black;\"></canvas>'
+
+    var canvas = document.getElementById('canvas')
+    var larg, alt, posx, posy
+    larg = 600
+    alt = 400
+    posx = (canvas.width - larg) / 2
+    posy = (canvas.height - alt) / 2
+
+    context = canvas.getContext("2d")
+
+    var img = new Image()
+    img.src = './img/_raven.gif'
+    img.onload = function() {
+        context.drawImage(img, 10, 10)
+    }
+    
 }
 
 function receber() {
