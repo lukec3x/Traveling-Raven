@@ -54,6 +54,11 @@ main section#down div#linha {
             margin-top: 20px;
         }
     }
+main section#down > p {
+    text-align: justify;
+    text-indent: 1.5em;
+    width: 90%;
+}
 
 /* E N V I A R */
 main#envRec {

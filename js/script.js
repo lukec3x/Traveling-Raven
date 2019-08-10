@@ -20,23 +20,24 @@ var naoEncontrado = true
 var part2 = document.getElementById('part2')
 
 function enviar() {
-    document.getElementById('envRec').innerHTML = '<canvas id=\"canvas\" width=\"600px\" height\"400px\" style=\"border: 1px solid black;\"></canvas>'
+    var stage = document.createElement('img')
+    stage.width = '70'
+    stage.src = './img/_raven.gif'
+    stage.style.position = 'absolute'
+    document.getElementById('envRec').innerHTML = ''
+    document.getElementById('envRec').style.position = 'relative'
+    document.getElementById('envRec').appendChild(stage)
 
-    var canvas = document.getElementById('canvas')
-    var larg, alt, posx, posy
-    larg = 600
-    alt = 400
-    posx = (canvas.width - larg) / 2
-    posy = (canvas.height - alt) / 2
+    var i = 88
+    stage.style.left = `${i}%`
+    var myvar = setInterval(function() {
+        stage.style.left = `${i}%`
+        i--
 
-    context = canvas.getContext("2d")
+        if (i == 1)
+            window.location.href = './index.html'        
+    }, 100)
 
-    var img = new Image()
-    img.src = './img/_raven.gif'
-    img.onload = function() {
-        context.drawImage(img, 10, 10)
-    }
-    
 }
 
 function receber() {
