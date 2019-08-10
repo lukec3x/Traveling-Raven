@@ -1,11 +1,11 @@
 var firebaseConfig = {
-    apiKey: "AIzaSyBCU58AEq4iu_386XjpwENYdW_i9MPkVeg",
-    authDomain: "transferir-textos.firebaseapp.com",
-    databaseURL: "https://transferir-textos.firebaseio.com",
-    projectId: "transferir-textos",
+    apiKey: "AIzaSyB4NkRTwFwExEGubKl342IlAnJLymhsEjQ",
+    authDomain: "raven-traveler.firebaseapp.com",
+    databaseURL: "https://raven-traveler.firebaseio.com",
+    projectId: "raven-traveler",
     storageBucket: "",
-    messagingSenderId: "762477456987",
-    appId: "1:762477456987:web:ae3a6f9156c119a0"
+    messagingSenderId: "934556866038",
+    appId: "1:934556866038:web:c1750103b56fbb94"
 }
 
 firebase.initializeApp(firebaseConfig)
@@ -13,31 +13,92 @@ firebase.initializeApp(firebaseConfig)
 var statusEnv = 0
 var statusRec = 0
 
-var numRand = ''
-
 var naoEncontrado = true
 
 var part2 = document.getElementById('part2')
 
+
+function verificarEnv() {
+    if (document.querySelector('div#pergaminho > textarea').value == '')
+        alert('O corvo recusa-se a levar um pergaminho vazio!')
+    else
+        enviar()
+}
 function enviar() {
-    var stage = document.createElement('img')
-    stage.width = '70'
-    stage.src = './img/_raven.gif'
-    stage.style.position = 'absolute'
+    var numRand = ''
+    // Gera número de 4 ou 5 digitos
+    //  Coloqui no começo para não da comflito com os frames
+    for (var i = 1; i < 5; i++) {
+        numRand += (Math.floor(Math.random() * 10 + 1 -1)).toString()
+    }
+
+    // Cria a imagem
+    var obj1 = document.createElement('img')
+    obj1.width = '70'
+    obj1.src = './img/_raven.gif'
+    obj1.style.position = 'absolute'
+    // Pega a string do textarea antes que ele seja apagado
+    var msg = document.querySelector('div#pergaminho textarea').value
     document.getElementById('envRec').innerHTML = ''
     document.getElementById('envRec').style.position = 'relative'
-    document.getElementById('envRec').appendChild(stage)
+    document.getElementById('envRec').appendChild(obj1)
 
     var i = 88
-    stage.style.left = `${i}%`
+    obj1.style.left = `${i}%`
+
+    var obj2 = document.createElement('section')
+    obj2.style.display = 'flex'
+    obj2.style.alignItems = 'center'
+    obj2.style.justifyContent = 'space-around'
+    obj2.style.position = 'absolute'
+    obj2.style.width = '100%'
+    obj2.style.height = '50%'
+    obj2.style.top = '50%'
+    document.getElementById('envRec').appendChild(obj2)
+
+    var obj3 = document.createElement('div')
+    obj3.style.width = '400px'
+    obj3.style.height = '200px'
+    document.querySelector('main > section').appendChild(obj3)
+
+    var obj4 = document.createElement('input')
+    obj4.type = 'text'
+    obj4.name = 'rec'
+    obj4.style.border = 'none'
+    obj4.style.background = 'none'
+    obj4.style.outline = 'none'
+    obj4.readOnly = true
+    obj4.style.color = '#fff'
+    obj4.id = 'cod'
+    document.querySelector('main > section > div').appendChild(obj4)
+
+    var recebido = false
+
+    firebase.database().ref('dados').push({
+        "ID": numRand,
+        "Mensagem": msg
+    }).then(function(data){
+        //alert(`Seu identificador é ${numRand}`)
+        console.log(numRand)
+        document.getElementById('cod').value = numRand
+        recebido = true
+    }).catch(function(error){
+        alert(error)
+        console.error(error)
+    })
+
+    // Controla o frame da imagem
+    var frames = 100  // Valor de uso: 100
     var myvar = setInterval(function() {
-        stage.style.left = `${i}%`
+        obj1.style.left = `${i}%`
         i--
 
-        if (i == 1)
-            window.location.href = './index.html'        
-    }, 100)
-
+        if (recebido == true && i == 1) {
+            window.location.href = './index.html'
+        } else if (recebido == false && i == 1) {
+            i = 88
+        }
+    }, frames)
 }
 
 function receber() {
@@ -47,26 +108,23 @@ function receber() {
 function envTxt() {
     var msg = document.getElementById('msg').value
 
-    if (msg == '') {
-        alert('Insira alguma mensagem!!')
-    } else {
-        for (var i = 1; i < 5; i++) {
-            numRand += (Math.floor(Math.random() * 10 + 1 -1)).toString()
-        }
-
-        firebase.database().ref('dados').push({
-            "ID": numRand,
-            "Mensagem": msg
-        }).then(function(data){
-            alert(`Seu identificador é ${numRand}`)
-            numRand = ''
-        }).catch(function(error){
-            alert(error)
-            console.error(error)
-        })
-
-        document.getElementById('msg').value = ''
+    // Gera número de 4 ou 5 digitos
+    for (var i = 1; i < 5; i++) {
+        numRand += (Math.floor(Math.random() * 10 + 1 -1)).toString()
     }
+
+    firebase.database().ref('dados').push({
+        "ID": numRand,
+        "Mensagem": msg
+    }).then(function(data){
+        alert(`Seu identificador é ${numRand}`)
+        numRand = ''
+    }).catch(function(error){
+        alert(error)
+        console.error(error)
+    })
+
+    document.getElementById('msg').value = ''
 }
 
 function recTxt() {
