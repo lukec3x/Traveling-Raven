@@ -35,7 +35,7 @@ function enviar() {
     // Cria a imagem
     var obj1 = document.createElement('img')
     obj1.width = '70'
-    obj1.src = './img/_raven.gif'
+    obj1.src = './img/ravenToLeft.gif'
     obj1.style.position = 'absolute'
     // Pega a string do textarea antes que ele seja apagado
     var msg = document.querySelector('div#pergaminho textarea').value
