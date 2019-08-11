@@ -79,8 +79,10 @@ main#envRec section#env {
     align-items: center;
     display: flex;
 }
-main#envRec section#env a img{
+main#envRec section#env a {
     margin: 10px 0 0 55px;
+}
+main#envRec section#env a img{
     width: 80px;
 }
 main#envRec section div#pergaminho {
@@ -95,6 +97,8 @@ main#envRec section div#pergaminho {
     display: flex;
 }
 main#envRec section div#pergaminho textarea{
+    font-family: 'Indie Flower', cursive;
+    font-size: 16pt;
     background: none;
     border: none;
 
@@ -106,6 +110,20 @@ main#envRec section div#pergaminho textarea{
 
     /*Retira a borda brilhante do textarea*/
     outline: none;
+}
+main#envRec section div#fundCod {
+    grid-template-columns: 27% 23% 23% 27%;
+    grid-template-areas: 'p1 p2 p3 p4';
+    grid-template-rows: 100%;
+    display: grid;
+}
+main#envRec section div#fundCod > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #000;
+    font-family: 'Indie Flower', cursive;
+    font-size: 17pt;
 }
 
 main a#voltar img {

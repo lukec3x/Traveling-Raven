@@ -25,11 +25,13 @@ function verificarEnv() {
         enviar()
 }
 function enviar() {
+    var numLista = []
     var numRand = ''
     // Gera número de 4 ou 5 digitos
     //  Coloqui no começo para não da comflito com os frames
     for (var i = 1; i < 5; i++) {
-        numRand += (Math.floor(Math.random() * 10 + 1 -1)).toString()
+        numLista[i -1] = (Math.floor(Math.random() * 10 + 1 -1)).toString()
+        numRand += numLista[i -1]
     }
 
     // Cria a imagem
@@ -56,21 +58,33 @@ function enviar() {
     obj2.style.top = '50%'
     document.getElementById('envRec').appendChild(obj2)
 
+    // Div com a imagem de fundo
     var obj3 = document.createElement('div')
-    obj3.style.width = '400px'
-    obj3.style.height = '200px'
+    obj3.id = 'fundCod'
+    obj3.style.width = '100px'
+    obj3.style.height = '40px'
+    obj3.style.backgroundImage = 'url(./img/fundoCod.png)'
+    obj3.style.backgroundRepeat = 'no-repeat'
+    obj3.style.backgroundSize = 'contain'
+    // Os estilos de grid ta no CSS
     document.querySelector('main > section').appendChild(obj3)
 
-    var obj4 = document.createElement('input')
-    obj4.type = 'text'
-    obj4.name = 'rec'
-    obj4.style.border = 'none'
-    obj4.style.background = 'none'
-    obj4.style.outline = 'none'
-    obj4.readOnly = true
-    obj4.style.color = '#fff'
-    obj4.id = 'cod'
+    // As 4 Divs com os números separados
+    var obj4 = document.createElement('div')
+    obj4.style.gridArea = 'p1'
     document.querySelector('main > section > div').appendChild(obj4)
+
+    var obj5 = document.createElement('div')
+    obj5.style.gridArea = 'p2'
+    document.querySelector('main > section > div').appendChild(obj5)
+
+    var obj6 = document.createElement('div')
+    obj6.style.gridArea = 'p3'
+    document.querySelector('main > section > div').appendChild(obj6)
+
+    var obj7 = document.createElement('div')
+    obj7.style.gridArea = 'p4'
+    document.querySelector('main > section > div').appendChild(obj7)
 
     var recebido = false
 
@@ -78,9 +92,13 @@ function enviar() {
         "ID": numRand,
         "Mensagem": msg
     }).then(function(data){
-        //alert(`Seu identificador é ${numRand}`)
+        console.log(numLista)
         console.log(numRand)
-        document.getElementById('cod').value = numRand
+
+        obj4.innerText = numLista[0]
+        obj5.innerText = numLista[1]
+        obj6.innerText = numLista[2]
+        obj7.innerText = numLista[3]
         recebido = true
     }).catch(function(error){
         alert(error)
