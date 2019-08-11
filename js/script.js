@@ -61,12 +61,7 @@ function enviar() {
     // Div com a imagem de fundo
     var obj3 = document.createElement('div')
     obj3.id = 'fundCod'
-    obj3.style.width = '100px'
-    obj3.style.height = '40px'
-    obj3.style.backgroundImage = 'url(./img/fundoCod.png)'
-    obj3.style.backgroundRepeat = 'no-repeat'
-    obj3.style.backgroundSize = 'contain'
-    // Os estilos de grid ta no CSS
+    // Os estilos de grid e de background estão no CSS
     document.querySelector('main > section').appendChild(obj3)
 
     // As 4 Divs com os números separados
@@ -106,7 +101,7 @@ function enviar() {
     })
 
     // Controla o frame da imagem
-    var frames = 100  // Valor de uso: 100
+    var frames = 10000000000  // Valor de uso: 100
     var myvar = setInterval(function() {
         obj1.style.left = `${i}%`
         i--
@@ -119,8 +114,14 @@ function enviar() {
     }, frames)
 }
 
-function receber() {
-    
+function recInputCod() {
+    var i1 = document.getElementById('i1').value
+    var i2 = document.getElementById('i2').value
+    var i3 = document.getElementById('i3').value
+    var i4 = document.getElementById('i4').value
+    if (i1 == '' && i2 == '' && i3 == '' && i4 == '') {
+        document.getElementById('i1').focus()
+    }
 }
 
 function envTxt() {

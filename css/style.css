@@ -67,17 +67,14 @@ main#envRec {
     flex-wrap: wrap;
     display: flex;
 }
-main#envRec section#env div#pergaminho {
-    background-image: url(../img/escrever.png);
-}
-main#envRec section#rec div#pergaminho {
-    background-image: url(../img/escrever2.png);
-}
 main#envRec section#env {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     display: flex;
+}
+main#envRec section#env div#pergaminho {
+    background-image: url(../img/escrever.png);
 }
 main#envRec section#env a {
     margin: 10px 0 0 55px;
@@ -98,8 +95,9 @@ main#envRec section div#pergaminho {
 }
 main#envRec section div#pergaminho textarea{
     font-family: 'Indie Flower', cursive;
-    font-size: 16pt;
+    text-align: justify;
     background: none;
+    font-size: 16pt;
     border: none;
 
     height: 390px;
@@ -111,11 +109,20 @@ main#envRec section div#pergaminho textarea{
     /*Retira a borda brilhante do textarea*/
     outline: none;
 }
+
+/* Ultilizo em enviar e em receber*/
 main#envRec section div#fundCod {
     grid-template-columns: 27% 23% 23% 27%;
     grid-template-areas: 'p1 p2 p3 p4';
     grid-template-rows: 100%;
     display: grid;
+
+    width: 100px;
+    height: 40px;
+
+    background-image: url(../img/fundoCod.png);
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 main#envRec section div#fundCod > div {
     display: flex;
@@ -129,4 +136,54 @@ main#envRec section div#fundCod > div {
 main a#voltar img {
     margin-bottom: 10px;
     width: 50px;
+}
+
+/* R E C E B E R */
+/*
+main#envRec section#rec div#pergaminho {
+    background-image: url(../img/escrever2.png);
+}*/
+main.rec {
+    position: relative;
+}
+main#envRec img#ravenToRight {
+    position: absolute;
+    left: 1%;
+    width: 70px;
+}
+main#envRec section#rec {
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+}
+main#envRec section#rec div#fundCod input {
+    background: none;
+    outline: none;
+    border: none;
+
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+
+    font-family: 'Indie Flower', cursive;
+    text-align: center;
+    font-size: 17pt;
+    color: #000;
+
+}
+main#envRec section#rec div#fundCod input#i1 {
+    grid-area: p1;
+}
+main#envRec section#rec div#fundCod input#i2 {
+    grid-area: p2;
+}
+main#envRec section#rec div#fundCod input#i3 {
+    grid-area: p3;
+}
+main#envRec section#rec div#fundCod input#i4 {
+    grid-area: p4;
 }

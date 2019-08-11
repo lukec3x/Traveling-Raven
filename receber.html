@@ -2,20 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Enviar | Raven Traveler</title>
+    <title>Receber | Raven Traveler</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <main id="envRec">
-        <a id="voltar" href="index.html">
-            <img src="img/_home.png" alt="">
-        </a>
+    <main id="envRec" class="rec">
+        <img id="ravenToRight" src="./img/ravenToRight.gif">
         <section id="rec">
-            <div id="pergaminho">
-                <textarea readonly></textarea>
+            <div id="fundCod">
+                <input id="i1" maxlength="1" type="text" onclick="recInputCod()">
+                <input id="i2" maxlength="1" type="text" onclick="recInputCod()">
+                <input id="i3" maxlength="1" type="text" onclick="recInputCod()">
+                <input id="i4" maxlength="1" type="text" onclick="recInputCod()">
             </div>
         </section>
     </main>
+    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
