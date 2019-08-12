@@ -46,11 +46,12 @@ main section#down div#linha {
 }
     @media only screen and (max-width: 910px) {
         main section#top {
+            margin-top: 20px;
             flex-wrap: wrap;
             align-content: center;
         }
         main section#top > a { margin: 0 5px; }
-        main > section {
+        main section#down {
             margin-top: 20px;
         }
     }
@@ -143,16 +144,17 @@ main a#voltar img {
 main#envRec section#rec div#pergaminho {
     background-image: url(../img/escrever2.png);
 }*/
-main.rec {
-    position: relative;
-}
+main.rec { position: relative; }
+
 main#envRec img#ravenToRight {
     position: absolute;
+
     left: 1%;
     width: 70px;
 }
 main#envRec section#rec {
-    justify-content: space-around;
+    justify-content: center;
+    flex-direction: column;
     align-items: center;
     position: absolute;
     display: flex;
@@ -175,15 +177,10 @@ main#envRec section#rec div#fundCod input {
     color: #000;
 
 }
-main#envRec section#rec div#fundCod input#i1 {
-    grid-area: p1;
-}
-main#envRec section#rec div#fundCod input#i2 {
-    grid-area: p2;
-}
-main#envRec section#rec div#fundCod input#i3 {
-    grid-area: p3;
-}
-main#envRec section#rec div#fundCod input#i4 {
-    grid-area: p4;
-}
+
+main#envRec section#rec > p { color: #fff; }
+
+main#envRec section#rec div#fundCod input#i1 { grid-area: p1; }
+main#envRec section#rec div#fundCod input#i2 { grid-area: p2; }
+main#envRec section#rec div#fundCod input#i3 { grid-area: p3; }
+main#envRec section#rec div#fundCod input#i4 { grid-area: p4; }

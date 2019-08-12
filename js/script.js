@@ -51,12 +51,18 @@ function enviar() {
     var obj2 = document.createElement('section')
     obj2.style.display = 'flex'
     obj2.style.alignItems = 'center'
-    obj2.style.justifyContent = 'space-around'
+    obj2.style.justifyContent = 'center'
+    obj2.style.flexDirection = 'column'
     obj2.style.position = 'absolute'
     obj2.style.width = '100%'
     obj2.style.height = '50%'
     obj2.style.top = '50%'
     document.getElementById('envRec').appendChild(obj2)
+
+    var objp = document.createElement('p')
+    objp.innerText = 'Seu codigo:'
+    objp.style.color = '#fff'
+    document.querySelector('main > section').appendChild(objp)
 
     // Div com a imagem de fundo
     var obj3 = document.createElement('div')
@@ -101,7 +107,7 @@ function enviar() {
     })
 
     // Controla o frame da imagem
-    var frames = 10000000000  // Valor de uso: 100
+    var frames = 100  // Valor de uso: 100
     var myvar = setInterval(function() {
         obj1.style.left = `${i}%`
         i--
@@ -114,13 +120,28 @@ function enviar() {
     }, frames)
 }
 
-function recInputCod() {
-    var i1 = document.getElementById('i1').value
-    var i2 = document.getElementById('i2').value
-    var i3 = document.getElementById('i3').value
-    var i4 = document.getElementById('i4').value
-    if (i1 == '' && i2 == '' && i3 == '' && i4 == '') {
+var i1 = document.getElementById('i1')
+var i2 = document.getElementById('i2')
+var i3 = document.getElementById('i3')
+var i4 = document.getElementById('i4')
+
+function veriRecInputCod() {
+    if (i1.value == '' && i2.value == '' && i3.value == '' && i4.value == '') {
         document.getElementById('i1').focus()
+    }
+}
+function recInputCod() {
+    if (i1.value != '' && i2.value != '' && i3.value != '' && i4.value != '') {
+        alert('chama função do corvo')
+        //recTxt()
+    } else if (i1.value != '' && i2.value != '' && i3.value != '') {
+        document.getElementById('i4').focus()
+    } else if (i1.value != '' && i2.value != '') {
+        document.getElementById('i3').focus()
+    } else if (i1.value != '') {
+        document.getElementById('i2').focus()
+    } else {
+        alert('Isso não deveria aparecer!!!')
     }
 }
 
