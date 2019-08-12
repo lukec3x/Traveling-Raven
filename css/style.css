@@ -134,23 +134,36 @@ main#envRec section div#fundCod > div {
     font-size: 17pt;
 }
 
+/* Estou usando em ambas as páginas */
 main a#voltar img {
     margin-bottom: 10px;
     width: 50px;
 }
 
 /* R E C E B E R */
-/*
-main#envRec section#rec div#pergaminho {
-    background-image: url(../img/escrever2.png);
-}*/
-main.rec { position: relative; }
 
+main#envRec section#recMsg div#pergaminho {
+    background-image: url(../img/escrever2.png);
+}
+main.rec { position: relative; }
+main.rec a#voltar img {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
 main#envRec img#ravenToRight {
     position: absolute;
-
+    display: none;
     left: 1%;
     width: 70px;
+
+}
+main#envRec img#ravenWaiting {
+    position: absolute;
+    width: 20%;
+    /*top: 80%;*/
+    top: 77.5%;
+    left: 1px;
 }
 main#envRec section#rec {
     justify-content: center;
