@@ -135,7 +135,7 @@ main#envRec section div#fundCod > div {
 }
 
 /* Estou usando em ambas as páginas */
-main a#voltar img {
+main#envRec a#voltar img {
     margin-bottom: 10px;
     width: 50px;
 }
