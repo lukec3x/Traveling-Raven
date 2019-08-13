@@ -23,7 +23,7 @@ function enviar() {
     var numRand = ''
     // Gera número de 4 ou 5 digitos
     //  Coloqui no começo para não da comflito com os frames
-    for (var i = 1; i < 5; i++) {
+    for (let i = 1; i < 5; i++) { // mudei de var para let para a variavel não vazar
         numLista[i -1] = (Math.floor(Math.random() * 10 + 1 -1)).toString()
         numRand += numLista[i -1]
     }
