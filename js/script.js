@@ -131,8 +131,6 @@ var i2 = document.getElementById('i2')
 var i3 = document.getElementById('i3')
 var i4 = document.getElementById('i4')
 
-var msg = 
-
 function veriRecInputCod() {
     if (i1.value == '' && i2.value == '' && i3.value == '' && i4.value == '') {
         document.getElementById('i1').focus()
