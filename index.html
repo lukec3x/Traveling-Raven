@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body onload="veriTamnhTela()" onresize="veriTamnhTela()">
     <main>
         <section id="top">
             <a href="enviar.html">
@@ -29,15 +29,6 @@
             </p>
         </section>
     </main>
-    <script type="text/javascript" src="https://wurfl.io/wurfl.js"></script>
-    <script>
-        if (WURFL.is_mobile === true && WURFL.form_factor === "Smartphone") {
-            // moblie
-            alert('movel')
-        } else {
-            //nao mobile
-            alert('pc')
-        }
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>

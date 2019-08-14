@@ -1,3 +1,11 @@
+function veriTamnhTela() {
+    let w = window.innerWidth
+    let h = window.innerHeight
+    if (h > w) {
+        alert('Deite a tela para melhor visualização da aplicação!')
+    }
+}
+
 var firebaseConfig = {
     apiKey: "AIzaSyB4NkRTwFwExEGubKl342IlAnJLymhsEjQ",
     authDomain: "raven-traveler.firebaseapp.com",
@@ -8,7 +16,11 @@ var firebaseConfig = {
     appId: "1:934556866038:web:c1750103b56fbb94"
 }
 
-firebase.initializeApp(firebaseConfig)
+try {
+    firebase.initializeApp(firebaseConfig)
+} catch (e) {
+    //faz nada, já qu enão tem a menor necessidace
+}
 
 var naoEncontrado = true
 
