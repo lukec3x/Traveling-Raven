@@ -1,3 +1,7 @@
+//Nome da pasta no Banco de Dados
+var dbName = 'dados' //'dadosTeste'
+
+
 function veriTamnhTela() {
     let w = window.innerWidth
     let h = window.innerHeight
@@ -40,23 +44,20 @@ function enviar() {
         numRand += numLista[i -1]
     }
 
-    // Cria a imagem
-    var obj1 = document.createElement('img')
-    obj1.width = '70'
-    obj1.src = './img/ravenToLeft.gif'
-    obj1.style.position = 'absolute'
     // Pega a string do textarea antes que ele seja apagado
     var msg = document.querySelector('div#pergaminho textarea').value
     document.getElementById('envRec').innerHTML = ''
+
+    // Cria a imagem
+    var obj1 = document.createElement('img')
+    obj1.id = 'ravenToLeft'
+    obj1.src = './img/ravenToLeft.gif'
     document.getElementById('envRec').style.position = 'relative'
     document.getElementById('envRec').appendChild(obj1)
 
     var objA = document.createElement('a')
     objA.href = './index.html'
     objA.id = 'voltar'
-    objA.style.position = 'absolute'
-    objA.style.left = '10px'
-    objA.style.top = '5px'
     document.getElementById('envRec').appendChild(objA)
 
     var objImg = document.createElement('img')
@@ -67,25 +68,16 @@ function enviar() {
     obj1.style.left = `${i}%`
 
     var obj2 = document.createElement('section')
-    obj2.style.display = 'flex'
-    obj2.style.alignItems = 'center'
-    obj2.style.justifyContent = 'center'
-    obj2.style.flexDirection = 'column'
-    obj2.style.position = 'absolute'
-    obj2.style.width = '100%'
-    obj2.style.height = '50%'
-    obj2.style.top = '50%'
+    obj2.id = 'areaDoCod'
     document.getElementById('envRec').appendChild(obj2)
 
     var objp = document.createElement('p')
     objp.innerText = 'Seu codigo:'
-    objp.style.color = '#fff'
     document.querySelector('main > section').appendChild(objp)
 
     // Div com a imagem de fundo
     var obj3 = document.createElement('div')
     obj3.id = 'fundCod'
-    // Os estilos de grid e de background estão no CSS
     document.querySelector('main > section').appendChild(obj3)
 
     // As 4 Divs com os números separados
@@ -107,7 +99,9 @@ function enviar() {
 
     var recebido = false
 
-    firebase.database().ref('dados').push({
+    firebase.database().ref(dbName).push({
+    //firebase.database().ref('dadosTeste').push({
+    //firebase.database().ref('dados').push({
         "ID": numRand,
         "Mensagem": msg
     }).then(function(data){
@@ -157,7 +151,9 @@ function recInputCod() {
 
         var mensg = ''
 
-        var query = firebase.database().ref("dados").orderByKey();
+        var query = firebase.database().ref(dbName).orderByKey();
+        //var query = firebase.database().ref("dadosTeste").orderByKey();
+        //var query = firebase.database().ref("dados").orderByKey();
         query.once("value").then(function(snapshot) {
             
             snapshot.forEach(function(childSnapshot) {
@@ -168,7 +164,9 @@ function recInputCod() {
                     mensg = db.Mensagem
                     
                     // Apaga a mensagem do banco
-                    firebase.database().ref('dados').child(childSnapshot.key).remove()
+                    firebase.database().ref(dbName).child(childSnapshot.key).remove()
+                    //firebase.database().ref('dados').child(childSnapshot.key).remove()
+                    //firebase.database().ref('dados').child(childSnapshot.key).remove()
 
                     recebido = true
                     naoEncontrado = false

@@ -61,7 +61,7 @@ main section#down > p {
     width: 90%;
 }
 
-/* E N V I A R */
+/* --------------------- E N V I A R --------------------- */
 main#envRec {
     justify-content: center;
     align-items: center;
@@ -83,6 +83,7 @@ main#envRec section#env a {
 main#envRec section#env a img{
     width: 80px;
 }
+/* Uso em ambos */
 main#envRec section div#pergaminho {
     background-repeat: no-repeat;
     background-size: contain;
@@ -111,46 +112,11 @@ main#envRec section div#pergaminho textarea{
     outline: none;
 }
 
-/* Ultilizo em enviar e em receber*/
-main#envRec section div#fundCod {
-    grid-template-columns: 27% 23% 23% 27%;
-    grid-template-areas: 'p1 p2 p3 p4';
-    grid-template-rows: 100%;
-    display: grid;
+/* --------------------- F I M   E N V I A R --------------------- */
 
-    width: 100px;
-    height: 40px;
+/* --------------------- R E C E B E R --------------------- */
 
-    background-image: url(../img/fundoCod.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-main#envRec section div#fundCod > div {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: #000;
-    font-family: 'Indie Flower', cursive;
-    font-size: 17pt;
-}
-
-/* Estou usando em ambas as páginas */
-main#envRec a#voltar img {
-    margin-bottom: 10px;
-    width: 50px;
-}
-
-/* R E C E B E R */
-
-main#envRec section#recMsg div#pergaminho {
-    background-image: url(../img/escrever2.png);
-}
 main.rec { position: relative; }
-main.rec a#voltar img {
-    position: absolute;
-    top: 5px;
-    left: 10px;
-}
 main#envRec img#ravenToRight {
     position: absolute;
     display: none;
@@ -161,8 +127,7 @@ main#envRec img#ravenToRight {
 main#envRec img#ravenWaiting {
     position: absolute;
     width: 20%;
-    /*top: 80%;*/
-    top: 77.5%;
+    bottom: 0;
     left: 1px;
 }
 main#envRec section#rec {
@@ -175,7 +140,7 @@ main#envRec section#rec {
     height: 50%;
     top: 50%;
 }
-main#envRec section#rec div#fundCod input {
+main#envRec section#areaDoCod div#fundCod input {
     background: none;
     outline: none;
     border: none;
@@ -197,3 +162,76 @@ main#envRec section#rec div#fundCod input#i1 { grid-area: p1; }
 main#envRec section#rec div#fundCod input#i2 { grid-area: p2; }
 main#envRec section#rec div#fundCod input#i3 { grid-area: p3; }
 main#envRec section#rec div#fundCod input#i4 { grid-area: p4; }
+
+/* --------------------- F I M   R E C E B E R --------------------- */
+
+/* --------------------- P A R T 2   E N V I A R --------------------- */
+
+main#envRec img#ravenToLeft {
+    position: absolute;
+    width: 70px;
+}
+
+main#envRec a#voltarSemPositionAbsl {
+    margin-bottom: 10px;
+    left: 20px;
+    top: 10px;
+}
+
+/* Estou usando em ambas as páginas */
+main#envRec a#voltar {
+    position: absolute;
+    margin-bottom: 10px;
+    left: 20px;
+    top: 10px;
+}
+main#envRec a#voltar img {
+    width: 50px;
+}
+
+main#envRec section#areaDoCod {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+}
+main#envRec section#areaDoCod > p {
+    color: #fff;
+}
+
+/* Ultilizo em enviar e em receber*/
+main#envRec section#areaDoCod div#fundCod {
+    grid-template-columns: 27% 23% 23% 27%;
+    grid-template-areas: 'p1 p2 p3 p4';
+    grid-template-rows: 100%;
+    display: grid;
+
+    width: 100px;
+    height: 40px;
+
+    background-image: url(../img/fundoCod.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+main#envRec section#areaDoCod div#fundCod > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #000;
+    font-family: 'Indie Flower', cursive;
+    font-size: 17pt;
+}
+
+/* --------------------- F I M   P A R T 2   E N V I A R --------------------- */
+
+/* --------------------- P A R T 2   R E C E B E R --------------------- */
+
+main#envRec section#recMsg div#pergaminho {
+    background-image: url(../img/escrever2.png);
+}
+
+/* --------------------- F I M   P A R T 2   R E C E B E R --------------------- */
