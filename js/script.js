@@ -6,7 +6,10 @@ function veriTamnhTela() {
     let w = window.innerWidth
     let h = window.innerHeight
     if (h > w) {
-        alert('Deite a tela para melhor visualização da aplicação!')
+        //alert('Deite a tela para melhor visualização da aplicação!')
+    }
+    else {
+        //
     }
 }
 
