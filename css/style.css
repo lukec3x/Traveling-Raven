@@ -279,7 +279,7 @@ main#envRec section#recMsg div#pergaminho {
 /* --------------------- C S S   M O V E L --------------------- */
 
 main#main-mobile {
-    grid-template-rows: 60vh 40vh;
+    grid-template-rows: 60% 40%;
     width: 100vw;
 }
 
