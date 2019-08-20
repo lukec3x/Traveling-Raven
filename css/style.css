@@ -278,19 +278,19 @@ main#envRec section#recMsg div#pergaminho {
 
 /* --------------------- C S S   M O V E L --------------------- */
 
-main#main-movel {
+main#main-mobile {
     grid-template-rows: 60vh 40vh;
     width: 100vw;
 }
 
-main section.top-movel {
+main section.top-mobile {
     flex-direction: column !important;
 }
-main section.top-movel a > img {
+main section.top-mobile a > img {
     width: 350px !important;
 }
 
-main section.down-movel > p {
+main section.down-mobile > p {
     font-size: 27pt !important;
 }
 

@@ -1,27 +1,6 @@
 //Nome da pasta no Banco de Dados
 var dbName = 'dados' //'dadosTeste'
 
-
-function veriTamnhTela() {
-    let w = window.innerWidth
-    let h = window.innerHeight
-    if (h > w) {
-        //alert('Deite a tela para melhor visualização da aplicação!')
-        document.querySelector('main').id = 'main-movel'
-
-        document.querySelector('main section#top').className = 'top-movel'
-
-        document.querySelector('main section#down').className = 'down-movel'
-    }
-    else {
-        document.querySelector('main').id = ''
-
-        document.querySelector('main section#top').className = ''
-
-        document.querySelector('main section#down').className = ''
-    }
-}
-
 var firebaseConfig = {
     apiKey: "AIzaSyB4NkRTwFwExEGubKl342IlAnJLymhsEjQ",
     authDomain: "raven-traveler.firebaseapp.com",
