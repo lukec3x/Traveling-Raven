@@ -28,7 +28,7 @@ main section#top > a {
 }
 main section#top a > img{
     width: 200px;
-    height: 138px;
+    /*height: 138px;*/
 }
 main section#down {
     grid-area: down;
