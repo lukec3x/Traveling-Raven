@@ -62,6 +62,45 @@ main section#down > p {
 }
 
 /* --------------------- E N V I A R --------------------- */
+
+div#frente {
+    background-image: url(../img/_lousa.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: fixed;
+    width: 500px;
+    height: 255px;
+    z-index: 1002;
+    
+    display: none;
+    /*display: flex;*/
+    align-items: center;
+    justify-content: center;
+}
+div#frente > p {
+    font-family: 'Indie Flower', cursive;
+    font-weight: bold;
+    font-size: 14pt;
+    color: #fff;
+}
+div#fundo {
+    filter: alpha(opacity = 80);
+            opacity: .80;
+    background-color: #000;
+    position: fixed;
+    display: none;
+    /*display: block;*/
+    z-index: 1001;
+    height: 100%;
+    width: 100%;
+    left: 0%;
+    top: 0%;
+}
+div#fundo > a {
+    float: right;
+    margin: 7px;
+}
+
 main#envRec {
     justify-content: center;
     align-items: center;

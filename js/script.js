@@ -32,10 +32,16 @@ try {
 var naoEncontrado = true
 
 function verificarEnv() {
-    if (document.querySelector('div#pergaminho > textarea').value == '')
-        alert('O corvo recusa-se a levar um pergaminho vazio!')
-    else
+    if (document.querySelector('div#pergaminho > textarea').value == '') {
+        //alert('O corvo recusa-se a levar um pergaminho vazio!')
+        document.getElementById('frente').style.display = 'flex'
+        document.getElementById('fundo').style.display = 'block'
+    } else
         enviar()
+}
+function fecharPopup() {
+    document.getElementById('frente').style.display = 'none'
+    document.getElementById('fundo').style.display = 'none'
 }
 function enviar() {
     var numLista = []
