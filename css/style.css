@@ -64,13 +64,13 @@ main section#down > p {
 /* --------------------- E N V I A R --------------------- */
 
 div#frente {
-    background-image: url(../img/_lousa.png);
+    background-image: url(../img/lousa.png);
     background-repeat: no-repeat;
     background-size: contain;
     position: fixed;
-    width: 500px;
-    height: 255px;
     z-index: 1002;
+    height: 250px;
+    width: 500px;
     
     display: none;
     /*display: flex;*/
