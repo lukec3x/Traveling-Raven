@@ -279,7 +279,7 @@ main#envRec section#recMsg div#pergaminho {
 /* --------------------- C S S   M O V E L --------------------- */
 
 main#main-mobile {
-    grid-template-rows: 60% 40%;
+    grid-template-rows: 60vh 40vh;
     width: 100vw;
 }
 
@@ -291,7 +291,8 @@ main section.top-mobile a > img {
 }
 
 main section.down-mobile > p {
-    font-size: 27pt !important;
+    font-size: 20pt !important;
+    /*font-size: 27pt !important;*/
 }
 
 /* --------------------- F I M   C S S   M O V E L --------------------- */
