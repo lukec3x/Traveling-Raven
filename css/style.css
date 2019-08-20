@@ -18,10 +18,11 @@ main {
 }
 main section#top {
     grid-area: top;
-
-    display: flex;
+    
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+    display: flex;
 }
 main section#top > a {
     margin: 60px;
@@ -274,3 +275,23 @@ main#envRec section#recMsg div#pergaminho {
 }
 
 /* --------------------- F I M   P A R T 2   R E C E B E R --------------------- */
+
+/* --------------------- C S S   M O V E L --------------------- */
+
+main#main-movel {
+    grid-template-rows: 60vh 40vh;
+    width: 100vw;
+}
+
+main section.top-movel {
+    flex-direction: column !important;
+}
+main section.top-movel a > img {
+    width: 350px !important;
+}
+
+main section.down-movel > p {
+    font-size: 27pt !important;
+}
+
+/* --------------------- F I M   C S S   M O V E L --------------------- */

@@ -7,9 +7,18 @@ function veriTamnhTela() {
     let h = window.innerHeight
     if (h > w) {
         //alert('Deite a tela para melhor visualização da aplicação!')
+        document.querySelector('main').id = 'main-movel'
+
+        document.querySelector('main section#top').className = 'top-movel'
+
+        document.querySelector('main section#down').className = 'down-movel'
     }
     else {
-        //
+        document.querySelector('main').id = ''
+
+        document.querySelector('main section#top').className = ''
+
+        document.querySelector('main section#down').className = ''
     }
 }
 
