@@ -1,5 +1,5 @@
 //Nome da pasta no Banco de Dados
-var dbName = 'dados' //'dadosTeste'
+var dbName = 'dadosTeste'//'dados' //'dadosTeste'
 
 var firebaseConfig = {
     apiKey: "AIzaSyB4NkRTwFwExEGubKl342IlAnJLymhsEjQ",
@@ -43,30 +43,53 @@ function enviar() {
 
     // Pega a string do textarea antes que ele seja apagado
     var msg = document.querySelector('div#pergaminho textarea').value
-    document.getElementById('envRec').innerHTML = ''
+    try {
+        document.getElementById('envRec').innerHTML = ''
+    } catch (error) {
+        document.getElementById('main-mobile-2').innerHTML = ''
+    }
 
     // Cria a imagem
     var obj1 = document.createElement('img')
     obj1.id = 'ravenToLeft'
     obj1.src = './img/ravenToLeft.gif'
-    document.getElementById('envRec').style.position = 'relative'
-    document.getElementById('envRec').appendChild(obj1)
+    try {
+        document.getElementById('envRec').style.position = 'relative'
+        document.getElementById('envRec').appendChild(obj1)
+    } catch (e) {
+        document.getElementById('main-mobile-2').style.position = 'relative'
+        document.getElementById('main-mobile-2').appendChild(obj1)
+    }
 
     var objA = document.createElement('a')
     objA.href = './index.html'
     objA.id = 'voltar'
-    document.getElementById('envRec').appendChild(objA)
+    try {
+        document.getElementById('envRec').appendChild(objA)
+    } catch (error) {
+        document.getElementById('main-mobile-2').appendChild(objA)
+    }
 
     var objImg = document.createElement('img')
     objImg.src = './img/home.png'
     document.getElementById('voltar').appendChild(objImg)
 
-    var i = 88
+    let w = window.innerWidth
+    let h = window.innerHeight
+    if (h > w) {
+        var i = 88
+    } else {
+        var i = 84
+    }
     obj1.style.left = `${i}%`
 
     var obj2 = document.createElement('section')
     obj2.id = 'areaDoCod'
-    document.getElementById('envRec').appendChild(obj2)
+    try {
+        document.getElementById('envRec').appendChild(obj2)
+    } catch (error) {
+        document.getElementById('main-mobile-2').appendChild(obj2)
+    }
 
     var objp = document.createElement('p')
     objp.innerText = 'Seu codigo:'
@@ -192,12 +215,20 @@ function recInputCod() {
 
             if (recebido == true && i == 90) {
                 //faaz a mudança de tela
-                document.getElementById('envRec').innerHTML = ''
+                try {
+                    document.getElementById('envRec').innerHTML = ''
+                } catch (error) {
+                    document.getElementById('main-mobile-2').innerHTML = ''
+                }
 
                 var obj1 = document.createElement('a')
                 obj1.id = 'voltar'
                 obj1.href = 'index.html'
-                document.getElementById('envRec').appendChild(obj1)
+                try {
+                    document.getElementById('envRec').appendChild(obj1)
+                } catch (e) {
+                    document.getElementById('main-mobile-2').appendChild(obj1)
+                }
 
                 var objImg = document.createElement('img')
                 objImg.src = './img/home.png'
@@ -205,7 +236,12 @@ function recInputCod() {
 
                 var obj3 = document.createElement('section')
                 obj3.id = 'recMsg'
-                document.getElementById('envRec').appendChild(obj3)
+                try {
+                    document.getElementById('envRec').appendChild(obj3)
+                } catch (error) {
+                    document.getElementById('main-mobile-2').appendChild(obj3)
+                    
+                }
 
                 var obj4 = document.createElement('div')
                 obj4.id = 'pergaminho'

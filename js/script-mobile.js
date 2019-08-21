@@ -5,15 +5,17 @@ function veriTamnhTela() {
         //alert('Deite a tela para melhor visualização da aplicação!')
         document.querySelector('main').id = 'main-mobile'
 
-        document.querySelector('main section#top').className = 'top-mobile'
-
-        document.querySelector('main section#down').className = 'down-mobile'
+        try {
+            document.querySelector('main section#top').className = 'top-mobile'
+            document.querySelector('main section#down').className = 'down-mobile'
+        } catch (error) {console.log(error)}
     }
     else {
         document.querySelector('main').id = ''
 
-        document.querySelector('main section#top').className = ''
-
-        document.querySelector('main section#down').className = ''
+        try {
+            document.querySelector('main section#top').className = ''
+            document.querySelector('main section#down').className = ''
+        } catch (error) {console.log(error)}
     }
 }
