@@ -10,9 +10,9 @@
     <script>
         let w = window.innerWidth
         let h = window.innerHeight
-        //if (h > w) {
-        if (WURFL.is_mobile === true && WURFL.form_factor === "Smartphone") {
-            window.location.href = 'index-mobile.html'
+        //if (h < w) {
+        if (!(WURFL.is_mobile === true && WURFL.form_factor === "Smartphone")) {
+            window.location.href = 'enviar.html'
         }
     </script>
 </head>
@@ -25,8 +25,8 @@
             <img src="img/fechar.png">
         </a>
     </div>
-    <main id="envRec">
-        <a id="voltarSemPositionAbsl" href="index.html">
+    <main id="main-mobile-2">
+        <a id="voltarSemTop" href="index-mobile.html">
             <img src="img/home.png" alt="">
         </a>
         <section id="env">

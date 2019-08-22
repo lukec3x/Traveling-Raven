@@ -309,6 +309,9 @@ main#main-mobile-2 a#voltarSemTop {
     left: 10px;
     /*top: 10px;*/
 }
+main#main-mobile-2 a#voltarSemTop img {
+    width: 80px;
+}
 /* Uso em ambos */
 main#main-mobile-2 a#voltar {
     position: absolute;
@@ -358,7 +361,7 @@ main#main-mobile-2 section div#pergaminho textarea{
     resize: none;
     width: 594px;
 
-    margin-left: 55px;
+    margin-left: 70px;
 
     /*Retira a borda brilhante do textarea*/
     outline: none;
@@ -445,6 +448,10 @@ main#main-mobile-2 section#areaDoCod div#fundCod input {
     font-size: 51pt;
     color: #000;
 
+}
+
+main#main-mobile-2 section#recMsg div#pergaminho {
+    background-image: url(../img/escrever2.png);
 }
 
 /* --------------------- F I M   C S S   M O V E L --------------------- */

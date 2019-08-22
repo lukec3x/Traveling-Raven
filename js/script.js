@@ -139,7 +139,7 @@ function enviar() {
     })
 
     // Controla o frame da imagem
-    var frames = 10567560  // Valor de uso: 100
+    var frames = 100  // Valor de uso: 100
     var myvar = setInterval(function() {
         obj1.style.left = `${i}%`
         i--

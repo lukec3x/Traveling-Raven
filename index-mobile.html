@@ -9,23 +9,23 @@
     <script>
         let w = window.innerWidth
         let h = window.innerHeight
-        //if (h > w) {
-        if (WURFL.is_mobile === true && WURFL.form_factor === "Smartphone") {
-            window.location.href = 'index-mobile.html'
+        //if (h < w) {
+        if (!(WURFL.is_mobile === true && WURFL.form_factor === "Smartphone")) {
+            window.location.href = 'index.html'
         }
-        </script>
-    </head>
+    </script>
+</head>
 <body>
-    <main>
-        <section id="top">
-            <a href="enviar.html">
+    <main id="main-mobile">
+        <section id="top" class="top-mobile">
+            <a href="enviar-mobile.html">
                 <img src="img/enviar2.png" alt="">
             </a>
-            <a href="receber.html">
+            <a href="receber-mobile.html">
                 <img src="img/ler.png" alt="">
             </a>
         </section>
-        <section id="down">
+        <section id="down" class="down-mobile">
             <div id="linha"></div>
 
             <p>Sed eget viverra augue. Nulla a augue enim. Nam tempus vestibulum libero at consectetur. 

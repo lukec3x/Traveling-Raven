@@ -10,15 +10,15 @@
     <script>
         let w = window.innerWidth
         let h = window.innerHeight
-        //if (h > w) {
-        if (WURFL.is_mobile === true && WURFL.form_factor === "Smartphone") {
-            window.location.href = 'index-mobile.html'
+        //if (h < w) {
+        if (!(WURFL.is_mobile === true && WURFL.form_factor === "Smartphone")) {
+            window.location.href = 'enviar.html'
         }
     </script>
 </head>
 <body>
-    <main id="envRec" class="rec">
-        <a id="voltar" href="index.html">
+    <main id="main-mobile-2" class="rec">
+        <a id="voltar" href="index-mobile.html">
             <img src="img/home.png" alt="">
         </a>
         <img id="ravenToRight" src="./img/ravenToRight.gif">
