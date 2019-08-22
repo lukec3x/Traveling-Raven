@@ -1,5 +1,5 @@
 //Nome da pasta no Banco de Dados
-var dbName = 'dadosTeste'//'dados' //'dadosTeste'
+var dbName = 'dados'//'dados' //'dadosTeste'
 
 var firebaseConfig = {
     apiKey: "AIzaSyB4NkRTwFwExEGubKl342IlAnJLymhsEjQ",
