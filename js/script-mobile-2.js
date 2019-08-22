@@ -17,6 +17,11 @@ function veriTamnhTela() {
         try {
             document.querySelector('body#page-2 main#main-mobile-2 a#voltarSemPositionAbsl').setAttribute('id', 'voltar')
         } catch (e) {}
+        try {
+            document.getElementById('voltar').setAttribute('id', 'voltarSemTop')
+        } catch (error) {
+            
+        }
 
     } else {
         // body
@@ -38,6 +43,11 @@ function veriTamnhTela() {
             if (document.querySelector('body').id == 'page-2')
                 document.querySelector('a#voltarSemPositionAbsl').setAttribute('id', 'voltar')
         } catch (e) {}
+        try {
+            document.getElementById('voltarSemTop').setAttribute('id', 'voltar')
+        } catch (error) {
+            
+        }
 
     }
 }

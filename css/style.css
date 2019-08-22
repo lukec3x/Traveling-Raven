@@ -304,11 +304,16 @@ main#main-mobile-2 {
     width: 100vw;
 }
 
+main#main-mobile-2 a#voltarSemTop {
+    position: absolute;
+    left: 10px;
+    /*top: 10px;*/
+}
 /* Uso em ambos */
 main#main-mobile-2 a#voltar {
     position: absolute;
     left: 10px;
-    /*top: 10px;*/
+    top: 10px;
 }
 main#main-mobile-2 a#voltar img {
     width: 80px;
