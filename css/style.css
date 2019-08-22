@@ -304,10 +304,11 @@ main#main-mobile-2 {
     width: 100vw;
 }
 
+/* Uso em ambos */
 main#main-mobile-2 a#voltar {
     position: absolute;
     left: 10px;
-    top: 10px;
+    /*top: 10px;*/
 }
 main#main-mobile-2 a#voltar img {
     width: 80px;
@@ -407,6 +408,8 @@ main#main-mobile-2 section#rec div#fundCod input#i1 { grid-area: p1; }
 main#main-mobile-2 section#rec div#fundCod input#i2 { grid-area: p2; }
 main#main-mobile-2 section#rec div#fundCod input#i3 { grid-area: p3; }
 main#main-mobile-2 section#rec div#fundCod input#i4 { grid-area: p4; }
+
+/* R E C E B E R */
 
 main#main-mobile-2 img#ravenWaiting {
     position: absolute;
