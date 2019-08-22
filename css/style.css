@@ -408,4 +408,35 @@ main#main-mobile-2 section#rec div#fundCod input#i2 { grid-area: p2; }
 main#main-mobile-2 section#rec div#fundCod input#i3 { grid-area: p3; }
 main#main-mobile-2 section#rec div#fundCod input#i4 { grid-area: p4; }
 
+main#main-mobile-2 img#ravenWaiting {
+    position: absolute;
+    width: 20%;
+    bottom: 0;
+    left: 1px;
+}
+
+main#main-mobile-2 img#ravenToRight {
+    position: absolute;
+    display: none;
+    left: 1%;
+    width: 120px;
+
+}
+
+main#main-mobile-2 section#areaDoCod div#fundCod input {
+    background: none;
+    outline: none;
+    border: none;
+
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+
+    font-family: 'Indie Flower', cursive;
+    text-align: center;
+    font-size: 51pt;
+    color: #000;
+
+}
+
 /* --------------------- F I M   C S S   M O V E L --------------------- */

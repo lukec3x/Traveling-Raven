@@ -1,7 +1,8 @@
 function veriTamnhTela() {
     let w = window.innerWidth
     let h = window.innerHeight
-    if (h > w) {
+    //if (h > w) {
+    if (WURFL.is_mobile === true && WURFL.form_factor === "Smartphone") {
         //alert('Deite a tela para melhor visualização da aplicação!')
         document.querySelector('main').id = 'main-mobile'
 

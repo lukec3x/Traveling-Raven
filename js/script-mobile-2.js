@@ -1,13 +1,15 @@
 function veriTamnhTela() {
     let w = window.innerWidth
     let h = window.innerHeight
-    if (h > w) {
+    //if (h > w) {
+    if (WURFL.is_mobile === true && WURFL.form_factor === "Smartphone") {
+
         // body
         document.querySelector('body').setAttribute('id', 'page-2')
 
         // main
         document.querySelector('main').setAttribute('id', 'main-mobile-2')
-        
+
         // #voltar
         try {
             document.querySelector('a#voltarSemPositionAbsl').setAttribute('id', 'voltar')
@@ -18,9 +20,13 @@ function veriTamnhTela() {
 
     } else {
         // body
-        if ( document.getElementById('ravenToLeft') == null) {
+        if (document.getElementById('ravenToLeft') == null) {
             document.querySelector('body').setAttribute('id', '')
         }
+        if (document.getElementById('ravenToRight') == null) {
+            document.querySelector('body').setAttribute('id', '')
+        }
+
         // main
         document.querySelector('main').setAttribute('id', 'envRec')
 

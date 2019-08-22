@@ -14,7 +14,7 @@ var firebaseConfig = {
 try {
     firebase.initializeApp(firebaseConfig)
 } catch (e) {
-    //faz nada, já qu enão tem a menor necessidace
+    //faz nada, já qu enão tem a menor necessidade
 }
 
 var naoEncontrado = true
@@ -139,7 +139,7 @@ function enviar() {
     })
 
     // Controla o frame da imagem
-    var frames = 100  // Valor de uso: 100
+    var frames = 10567560  // Valor de uso: 100
     var myvar = setInterval(function() {
         obj1.style.left = `${i}%`
         i--
