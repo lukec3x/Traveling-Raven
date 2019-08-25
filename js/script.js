@@ -240,7 +240,6 @@ function recInputCod() {
                     document.getElementById('envRec').appendChild(obj3)
                 } catch (error) {
                     document.getElementById('main-mobile-2').appendChild(obj3)
-                    
                 }
 
                 var obj4 = document.createElement('div')

@@ -84,9 +84,15 @@ div#frente > p {
     font-size: 14pt;
     color: #fff;
 }
+div#frente > img#ravenPutasso {
+    position: absolute;
+    height: 100px;
+    top: -70px;
+    left: 140px;
+}
 div#fundo {
-    filter: alpha(opacity = 80);
-            opacity: .80;
+    filter: alpha(opacity = 60);
+            opacity: .60;
     background-color: #000;
     position: fixed;
     display: none;
