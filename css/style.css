@@ -286,7 +286,7 @@ main#envRec section#recMsg div#pergaminho {
 
 main#main-mobile {
     grid-template-rows: 60vh 40vh;
-    width: 100vw;
+    width: 98vw;
 }
 
 main section.top-mobile {
@@ -307,12 +307,13 @@ main#main-mobile-2 {
     justify-content: center;
     align-items: center;
     display: flex;
-    width: 100vw;
+    width: 98vw;
 }
 
 main#main-mobile-2 a#voltarSemTop {
     position: absolute;
     left: 10px;
+    margin-left: 5px;
     /*top: 10px;*/
 }
 main#main-mobile-2 a#voltarSemTop img {
