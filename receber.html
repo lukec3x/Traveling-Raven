@@ -23,12 +23,13 @@
         <img id="ravenWaiting" src="./img/ravenWaiting.gif">
         <section id="areaDoCod">
             <p>Informe o codigo de 4 digitos:</p>
-            <div id="fundCod">
+            <div id="fundCodRec">
+                <input id="i0" maxlength="7" oninput="veriCod()" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" autofocus>
                 <!-- Esse evendo no onkeypress é para permitir somente números no input text -->
-                <input id="i1" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()" autofocus>
+                <!-- <input id="i1" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()" autofocus>
                 <input id="i2" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()">
                 <input id="i3" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()">
-                <input id="i4" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()">
+                <input id="i4" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()"> -->
             </div>
         </section>
     </main>

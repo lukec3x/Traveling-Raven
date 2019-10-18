@@ -152,118 +152,132 @@ function enviar() {
     }, frames)
 }
 
-var i1 = document.getElementById('i1')
-var i2 = document.getElementById('i2')
-var i3 = document.getElementById('i3')
-var i4 = document.getElementById('i4')
+var i0 = document.getElementById('i0')
+var newCod
 
-function veriRecInputCod() {
-    if (i1.value == '' && i2.value == '' && i3.value == '' && i4.value == '') {
-        document.getElementById('i1').focus()
+const veriCod = () => {
+
+    newCod = i0.value.replace(/\D/g, '')
+
+    if (newCod.length === 0) {
+        return
+    } else if (newCod.length === 1) {
+        console.log('1 number')
+        console.log(newCod)
+        i0.value = newCod
+    } else if (newCod.length === 2) {
+        console.log('2 numbers')
+        console.log(newCod)
+        i0.value = `${newCod[0]} ${newCod[1]}`
+    } else if (newCod.length === 3) {
+        console.log('3 numbers')
+        console.log(newCod)
+        i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]}`
+    } else if (newCod.length === 4) {
+        console.log('4 numbers')
+        console.log(newCod)
+        i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]} ${newCod[3]}`
+
+        recInputCod()
+
+    } else {
+        i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]} ${newCod[3]}`
     }
 }
+
 function recInputCod() {
-    if (i1.value != '' && i2.value != '' && i3.value != '' && i4.value != '') {
-        //alert('chama função do corvo')
+    //alert('chama função do corvo')
 
-        var recebido = false
-        //funcao de busca dos dados
+    i0.readOnly = true
 
-        var mensg = ''
+    var recebido = false
+    //funcao de busca dos dados
 
-        var query = firebase.database().ref(dbName).orderByKey();
-        //var query = firebase.database().ref("dadosTeste").orderByKey();
-        //var query = firebase.database().ref("dados").orderByKey();
-        query.once("value").then(function(snapshot) {
-            
-            snapshot.forEach(function(childSnapshot) {
-                var db = childSnapshot.val()
-                var buscId = i1.value + '' + i2.value + '' + i3.value + '' + i4.value
-    
-                if (db.ID == buscId) {
-                    mensg = db.Mensagem
-                    
-                    // Apaga a mensagem do banco
-                    firebase.database().ref(dbName).child(childSnapshot.key).remove()
-                    //firebase.database().ref('dados').child(childSnapshot.key).remove()
-                    //firebase.database().ref('dados').child(childSnapshot.key).remove()
+    var mensg = ''
 
-                    recebido = true
-                    naoEncontrado = false
-                    //console.log('Vai ficar com erro mesmo')
-                    //return value === db.ID
-                } 
-            })
+    var query = firebase.database().ref(dbName).orderByKey();
+    //var query = firebase.database().ref("dadosTeste").orderByKey();
+    //var query = firebase.database().ref("dados").orderByKey();
+    query.once("value").then(function(snapshot) {
+        
+        snapshot.forEach(function(childSnapshot) {
+            var db = childSnapshot.val()
+            var buscId = `${newCod[0]}${newCod[1]}${newCod[2]}${newCod[3]}`
 
-            if (naoEncontrado) {
-                alert('Identificador não encontrado!')
-                window.location.href = './receber.html'
+            if (db.ID == buscId) {
+                mensg = db.Mensagem
+                
+                // Apaga a mensagem do banco
+                firebase.database().ref(dbName).child(childSnapshot.key).remove()
+                //firebase.database().ref('dados').child(childSnapshot.key).remove()
+                //firebase.database().ref('dados').child(childSnapshot.key).remove()
+
+                recebido = true
+                naoEncontrado = false
+                //console.log('Vai ficar com erro mesmo')
+                //return value === db.ID
+            } 
+        })
+
+        if (naoEncontrado) {
+            alert('Identificador não encontrado!')
+            window.location.href = './receber.html'
+        }
+    })    
+
+    // Controla o frame da imagem
+    var frames = 60  // Valor de uso: 100
+    var i = 1
+    var raven = document.getElementById('ravenToRight')
+
+    document.getElementById('ravenWaiting').style.display = 'none'
+    raven.style.display = 'inline-block'
+
+    var myvar = setInterval(function() {
+        raven.style.left = `${i}%`
+        i++
+
+        if (recebido == true && i == 90) {
+            //faaz a mudança de tela
+            try {
+                document.getElementById('envRec').innerHTML = ''
+            } catch (error) {
+                document.getElementById('main-mobile-2').innerHTML = ''
             }
-        })    
 
-        // Controla o frame da imagem
-        var frames = 60  // Valor de uso: 100
-        var i = 1
-        var raven = document.getElementById('ravenToRight')
-
-        document.getElementById('ravenWaiting').style.display = 'none'
-        raven.style.display = 'inline-block'
-
-        var myvar = setInterval(function() {
-            raven.style.left = `${i}%`
-            i++
-
-            if (recebido == true && i == 90) {
-                //faaz a mudança de tela
-                try {
-                    document.getElementById('envRec').innerHTML = ''
-                } catch (error) {
-                    document.getElementById('main-mobile-2').innerHTML = ''
-                }
-
-                var obj1 = document.createElement('a')
-                obj1.id = 'voltar'
-                obj1.href = 'index.html'
-                try {
-                    document.getElementById('envRec').appendChild(obj1)
-                } catch (e) {
-                    document.getElementById('main-mobile-2').appendChild(obj1)
-                }
-
-                var objImg = document.createElement('img')
-                objImg.src = './img/home.png'
-                document.getElementById('voltar').appendChild(objImg)
-
-                var obj3 = document.createElement('section')
-                obj3.id = 'recMsg'
-                try {
-                    document.getElementById('envRec').appendChild(obj3)
-                } catch (error) {
-                    document.getElementById('main-mobile-2').appendChild(obj3)
-                }
-
-                var obj4 = document.createElement('div')
-                obj4.id = 'pergaminho'
-                document.querySelector('main section#recMsg').appendChild(obj4)
-
-                var obj5 = document.createElement('textarea')
-                obj5.autofocus = true
-                obj5.readOnly = true
-                obj5.innerText = mensg
-                document.getElementById('pergaminho').append(obj5)
-
-            } else if (recebido == false && i == 90) {
-                i = 1
+            var obj1 = document.createElement('a')
+            obj1.id = 'voltar'
+            obj1.href = 'index.html'
+            try {
+                document.getElementById('envRec').appendChild(obj1)
+            } catch (e) {
+                document.getElementById('main-mobile-2').appendChild(obj1)
             }
-        }, frames)
 
-    } else if (i1.value != '' && i2.value != '' && i3.value != '') {
-        document.getElementById('i4').focus()
-    } else if (i1.value != '' && i2.value != '') {
-        document.getElementById('i3').focus()
-    } else if (i1.value != '') {
-        document.getElementById('i2').focus()
-    } else {
-        alert('Isso não deveria aparecer!!!')
-    }
+            var objImg = document.createElement('img')
+            objImg.src = './img/home.png'
+            document.getElementById('voltar').appendChild(objImg)
+
+            var obj3 = document.createElement('section')
+            obj3.id = 'recMsg'
+            try {
+                document.getElementById('envRec').appendChild(obj3)
+            } catch (error) {
+                document.getElementById('main-mobile-2').appendChild(obj3)
+            }
+
+            var obj4 = document.createElement('div')
+            obj4.id = 'pergaminho'
+            document.querySelector('main section#recMsg').appendChild(obj4)
+
+            var obj5 = document.createElement('textarea')
+            obj5.autofocus = true
+            obj5.readOnly = true
+            obj5.innerText = mensg
+            document.getElementById('pergaminho').append(obj5)
+
+        } else if (recebido == false && i == 90) {
+            i = 1
+        }
+    }, frames)
 }

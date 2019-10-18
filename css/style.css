@@ -186,28 +186,32 @@ main#envRec section#rec {
     height: 50%;
     top: 50%;
 }
-main#envRec section#areaDoCod div#fundCod input {
+
+main#envRec section#areaDoCod div#fundCodRec {
+    grid-template-rows: 100%;
+    display: grid;
+
+    width: 100px;
+    height: 40px;
+
+    background-image: url(../img/fundoCod.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+main#envRec section#areaDoCod div#fundCodRec input {
     background: none;
     outline: none;
     border: none;
 
-    justify-content: space-around;
-    align-items: center;
-    display: flex;
-
     font-family: 'Indie Flower', cursive;
-    text-align: center;
-    font-size: 17pt;
+    font-size: 24pt;
     color: #000;
 
+    margin-left: 7.3px;
+    width: 90px;
 }
 
 main#envRec section#rec > p { color: #fff; }
-
-main#envRec section#rec div#fundCod input#i1 { grid-area: p1; }
-main#envRec section#rec div#fundCod input#i2 { grid-area: p2; }
-main#envRec section#rec div#fundCod input#i3 { grid-area: p3; }
-main#envRec section#rec div#fundCod input#i4 { grid-area: p4; }
 
 /* --------------------- F I M   R E C E B E R --------------------- */
 
@@ -249,7 +253,6 @@ main#envRec section#areaDoCod > p {
     color: #fff;
 }
 
-/* Ultilizo em enviar e em receber*/
 main#envRec section#areaDoCod div#fundCod {
     grid-template-columns: 27% 23% 23% 27%;
     grid-template-areas: 'p1 p2 p3 p4';
@@ -258,11 +261,12 @@ main#envRec section#areaDoCod div#fundCod {
 
     width: 100px;
     height: 40px;
-
+    
     background-image: url(../img/fundoCod.png);
     background-repeat: no-repeat;
     background-size: contain;
 }
+/* Ultilizo em enviar e em receber*/
 main#envRec section#areaDoCod div#fundCod > div {
     display: flex;
     justify-content: space-around;
@@ -446,15 +450,12 @@ main#main-mobile-2 section#areaDoCod div#fundCod input {
     outline: none;
     border: none;
 
-    justify-content: space-around;
-    align-items: center;
-    display: flex;
-
     font-family: 'Indie Flower', cursive;
-    text-align: center;
-    font-size: 51pt;
+    font-size: 68pt;
     color: #000;
 
+    margin-left: 26px;
+    width: 270px;
 }
 
 main#main-mobile-2 section#recMsg div#pergaminho {
