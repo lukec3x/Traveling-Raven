@@ -92,7 +92,7 @@ function enviar() {
     }
 
     var objp = document.createElement('p')
-    objp.innerText = 'Seu codigo:'
+    objp.innerText = 'Seu código:'
     document.querySelector('main > section').appendChild(objp)
 
     // Div com a imagem de fundo
