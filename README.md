@@ -1,3 +1,3 @@
-# Raven Traveler
+# Traveling Raven
 
-https://lukec3x.github.io/Raven-Traveler/
+https://lukec3x.github.io/Traveling-Raven/
