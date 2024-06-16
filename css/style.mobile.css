@@ -1,0 +1,180 @@
+/* --------------------- C S S   M O V E L --------------------- */
+
+main#main-mobile {
+    grid-template-rows: 60vh 40vh;
+    width: 98vw;
+}
+
+main section.top-mobile {
+    flex-direction: column !important;
+}
+main section.top-mobile div#top-buttons {
+    flex-direction: column !important;
+}
+main section.top-mobile a > img {
+    width: 350px !important;
+}
+
+main section.down-mobile > p {
+    font-size: 20pt !important;
+    /*font-size: 27pt !important;*/
+}
+
+/* E N V I A R */
+
+main#main-mobile-2 {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 98vw;
+}
+
+main#main-mobile-2 a#voltarSemTop {
+    position: absolute;
+    left: 10px;
+    margin-left: 5px;
+    /*top: 10px;*/
+}
+main#main-mobile-2 a#voltarSemTop img {
+    width: 80px;
+}
+/* Uso em ambos */
+main#main-mobile-2 a#voltar {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+main#main-mobile-2 a#voltar img {
+    width: 80px;
+}
+
+main#main-mobile-2 section#env {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+main#main-mobile-2 section#env div#pergaminho {
+    background-image: url(../img/escrever.png);
+}
+main#main-mobile-2 section#env a {
+    margin: 10px 0 0 85px;
+}
+main#main-mobile-2 section#env a img{
+    width: 160px;
+}
+/* Uso em ambos */
+main#main-mobile-2 section div#pergaminho {
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    width: 900px;
+    height: 900px;
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+main#main-mobile-2 section div#pergaminho textarea{
+    font-family: 'Indie Flower', cursive;
+    text-align: justify;
+    background: none;
+    font-size: 35pt;
+    border: none;
+
+    height: 690px;
+    resize: none;
+    width: 594px;
+
+    margin-left: 70px;
+
+    /* Retira a borda brilhante do textarea */
+    outline: none;
+}
+
+main#main-mobile-2 img#ravenToLeft {
+    position: absolute;
+    width: 120px;
+}
+
+main#main-mobile-2 section#areaDoCod {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+}
+main#main-mobile-2 section#areaDoCod > p {
+    color: #fff;
+    font-size: 35pt;
+}
+
+/* Ultilizo em enviar e em receber */
+main#main-mobile-2 section#areaDoCod div#fundCod {
+    grid-template-columns: 27% 23% 23% 27%;
+    grid-template-areas: 'p1 p2 p3 p4';
+    grid-template-rows: 100%;
+    display: grid;
+
+    width: 300px;
+    height: 120px;
+
+    background-image: url(../img/fundoCod.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+main#main-mobile-2 section#areaDoCod div#fundCod > div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #000;
+    font-family: 'Indie Flower', cursive;
+    font-size: 51pt;
+}
+
+main#main-mobile-2 section#rec > p { color: #fff; }
+
+main#main-mobile-2 section#rec div#fundCod input#i1 { grid-area: p1; }
+main#main-mobile-2 section#rec div#fundCod input#i2 { grid-area: p2; }
+main#main-mobile-2 section#rec div#fundCod input#i3 { grid-area: p3; }
+main#main-mobile-2 section#rec div#fundCod input#i4 { grid-area: p4; }
+
+/* R E C E B E R */
+
+main#main-mobile-2 img#ravenWaiting {
+    position: absolute;
+    width: 20%;
+    bottom: 0;
+    left: 1px;
+}
+
+main#main-mobile-2 img#ravenToRight {
+    position: absolute;
+    display: none;
+    left: 1%;
+    width: 120px;
+
+}
+
+main#main-mobile-2 section#areaDoCod div#fundCod input {
+    background: none;
+    outline: none;
+    border: none;
+
+    font-family: 'Indie Flower', cursive;
+    font-size: 68pt;
+    color: #000;
+
+    margin-left: 26px;
+    width: 270px;
+}
+
+main#main-mobile-2 section#recMsg div#pergaminho {
+    background-image: url(../img/escrever2.png);
+}
+
+/* --------------------- F I M   C S S   M O V E L --------------------- */
