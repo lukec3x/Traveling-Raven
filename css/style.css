@@ -57,7 +57,12 @@ main section#top div#top-buttons {
     justify-content: center;
 }
 main section#top div#top-buttons > a {
-    margin: 60px;
+    margin: 50px;
+    padding: 10px;
+}
+main section#top div#top-buttons > a:hover {
+    border-bottom: #000 double 2px;
+    padding-bottom: 8px;
 }
 main section#top div#top-buttons a > img {
     width: 200px;
@@ -158,7 +163,11 @@ main#envRec section#env div#pergaminho {
     background-image: url(../img/escrever.png);
 }
 main#envRec section#env a {
-    margin: 10px 0 0 55px;
+    margin: 10px 0 5px 55px;
+}
+main#envRec section#env a:hover {
+    border-bottom: #000 double 2px;
+    margin-bottom: 3px;
 }
 main#envRec section#env a img{
     width: 80px;
@@ -261,6 +270,10 @@ main#envRec a#voltarSemPositionAbsl {
     left: 20px;
     top: 10px;
 }
+main#envRec a#voltarSemPositionAbsl:hover {
+    border-bottom: #000 double 2px;
+    margin-bottom: 8px;
+}
 
 /* Estou usando em ambas as páginas */
 main#envRec a#voltar {
@@ -268,6 +281,10 @@ main#envRec a#voltar {
     margin-bottom: 10px;
     left: 20px;
     top: 10px;
+}
+main#envRec a#voltar:hover {
+    border-bottom: #000 double 2px;
+    margin-bottom: 8px;
 }
 main#envRec a#voltar img {
     width: 50px;
