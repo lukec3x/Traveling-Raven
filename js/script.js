@@ -222,8 +222,12 @@ function recInputCod() {
     })
 
     if (naoEncontrado) {
-      alert('Identificador não encontrado!')
-      window.location.href = './receber.html'
+      document.getElementById('frente').style.display = 'flex'
+      document.getElementById('fundo').style.display = 'block'
+
+      document.getElementById('fundo').addEventListener('click', function(){
+        window.location.href = './receber.html'
+      })
     }
   })
 

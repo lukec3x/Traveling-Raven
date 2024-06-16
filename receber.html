@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>Receber | Raven Traveler</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap"
+      rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script>
         let w = window.innerWidth
@@ -13,28 +15,41 @@
             window.location.href = 'receber-mobile.html'
         }
     </script>
-</head>
-<body>
+  </head>
+  <body>
+    <div id="frente">
+      <img id="ravenPutasso" src="img/ravenPutasso.gif" alt>
+      <p>Pergaminho não encontrado!</p>
+    </div>
+    <div id="fundo" onclick="fecharPopup()">
+      <a href="javascript:void(0)" onclick="fecharPopup()">
+        <img src="img/fechar.png">
+      </a>
+    </div>
     <main id="envRec" class="rec">
-        <a id="voltar" href="index.html">
-            <img src="img/home.png" alt="">
-        </a>
-        <img id="ravenToRight" src="./img/ravenToRight.gif">
-        <img id="ravenWaiting" src="./img/ravenWaiting.gif">
-        <section id="areaDoCod">
-            <p>Informe o código de 4 digitos:</p>
-            <div id="fundCodRec">
-                <input id="i0" maxlength="7" oninput="veriCod()" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" autofocus>
-                <!-- Esse evendo no onkeypress é para permitir somente números no input text -->
-                <!-- <input id="i1" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()" autofocus>
+      <a id="voltar" href="index.html">
+        <img src="img/home.png" alt>
+      </a>
+      <img id="ravenToRight" src="./img/ravenToRight.gif">
+      <img id="ravenWaiting" src="./img/ravenWaiting.gif">
+      <section id="areaDoCod">
+        <p>Informe o código de 4 digitos:</p>
+        <div id="fundCodRec">
+          <input id="i0" maxlength="7" oninput="veriCod()" type="text"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            autofocus>
+          <!-- Esse evendo no onkeypress é para permitir somente números no input text -->
+          <!-- <input id="i1" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()" autofocus>
                 <input id="i2" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()">
                 <input id="i3" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()">
                 <input id="i4" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()"> -->
-            </div>
-        </section>
+        </div>
+      </section>
     </main>
-    <script src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/6.3.1/firebase-app.js"></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
     <script src="js/script.js"></script>
-</body>
+  </body>
 </html>
