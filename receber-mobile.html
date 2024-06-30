@@ -6,6 +6,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.mobile.css">
     <script>
         let w = window.innerWidth
         let h = window.innerHeight
@@ -15,6 +16,15 @@
     </script>
 </head>
 <body>
+    <div id="frente">
+        <img id="ravenPutasso" src="img/ravenPutasso.gif" alt="">
+        <p>O corvo recusa-se a levar um pergaminho vazio!</p>
+    </div>
+    <div id="fundo" onclick="fecharPopup()">
+        <a href="javascript:void(0)" onclick="fecharPopup()">
+            <img src="img/fechar.png">
+        </a>
+    </div>
     <main id="main-mobile-2" class="rec">
         <a id="voltar" href="index-mobile.html">
             <img src="img/home.png" alt="">
@@ -24,7 +34,7 @@
         <section id="areaDoCod">
             <p>Informe o código de 4 digitos:</p>
             <div id="fundCod">
-                <input id="i0" maxlength="8" oninput="veriCod()" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" autofocus>
+                <input id="i0" maxlength="7" oninput="veriCod()" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" autofocus>
                 <!-- Esse evendo no onkeypress é para permitir somente números no input text -->
                 <!-- <input id="i1" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()" autofocus>
                 <input id="i2" maxlength="1" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onclick="veriRecInputCod()" oninput="recInputCod()">
