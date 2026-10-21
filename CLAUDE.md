@@ -14,7 +14,7 @@ Language: product copy is moving to English. These markdown files are already En
 - Receive runs `orderByKey()` + `forEach` over **all** records in `dados`. When `ID` matches, the node is removed. A code works once.
 - Shared behavior lives only in `js/script.js`. Desktop and mobile do not have separate JS.
 - Desktop/mobile redirect is by **orientation** (`innerHeight` vs `innerWidth`), not user-agent. Home also loads WURFL, but each page’s redirect is the `if` in `<head>`.
-- Firebase is only on send/receive pages (CDN: `firebase-app` 6.3.1 + `firebase-database` 5.9.1). Home does not need the SDK, but still includes `script.js`.
+- Firebase is only on send/receive pages (CDN: `firebase-app` + `firebase-database` 8.10.1). Home does not need the SDK, but still includes `script.js`. On `localhost` / `127.0.0.1`, `useEmulator('127.0.0.1', 9000)` points at the Docker Realtime Database emulator.
 - Firebase credentials are in the client (`firebaseConfig` in `js/script.js`). Do not copy the key into other docs; do not treat it as a server secret.
 
 ## Where to change things
@@ -65,5 +65,7 @@ type(optional-scope): short description
 ## Deploy
 
 Static. GitHub Pages: `https://lukec3x.github.io/Traveling-Raven/`. Domain: `http://travelingraven.com.br`. Edits to HTML/CSS/JS at the repo root are what ships; there is no pipeline in this repo.
+
+Local: `docker compose up --build` — nginx on `:8080`, Realtime Database emulator on `:9000`, emulator UI on `:4000`.
 
 There is no `ai/INDEX.md` and no `*.skills.md`. This file is the canonical agent doc.

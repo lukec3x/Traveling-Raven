@@ -13,6 +13,9 @@ var firebaseConfig = {
 
 try {
   firebase.initializeApp(firebaseConfig)
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    firebase.database().useEmulator('127.0.0.1', 9000)
+  }
 } catch (e) {
   //faz nada, já qu enão tem a menor necessidade
 }
