@@ -1,0 +1,16 @@
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/usr/share/nginx/html:ro
+    depends_on:
+      - firebase
+  firebase:
+    build:
+      context: .
+      dockerfile: Dockerfile.firebase
+    ports:
+      - "9000:9000"
+      - "4000:4000"

@@ -18,7 +18,13 @@ Portrait screens use the `*-mobile.html` pages; landscape uses the desktop pages
 
 ## Run locally
 
-It is only HTML, CSS, and JS. Open `index.html` in a browser (or serve the folder with any static server). Send and receive need Firebase, configured in `js/script.js`.
+```bash
+docker compose up --build
+```
+
+Site: http://localhost:8080 — emulator UI: http://localhost:4000. On `localhost`, send/receive use the Realtime Database emulator, not production.
+
+Without Docker, open `index.html` (or any static server). Production hosts keep using the live Firebase project in `js/script.js`.
 
 ## Layout
 
