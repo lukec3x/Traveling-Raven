@@ -3,28 +3,28 @@ a { text-decoration: none; }
 
 /* Webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-    width: 12px; /* Largura da barra de rolagem */
+    width: 12px; /* Scrollbar width */
 }
 
 ::-webkit-scrollbar-track {
-    background: #58503d; /* Cor de fundo da track (o espaço onde a barra de rolagem se move) */
-    border-radius: 10px; /* Borda arredondada para combinar com o estilo pixel art */
+    background: #58503d; /* Track background */
+    border-radius: 10px; /* Rounded corner, pixel-art look */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #21170b; /* Cor da barra de rolagem */
-    border-radius: 10px; /* Borda arredondada */
-    border: 2px solid #5c5c5c; /* Borda ao redor da barra de rolagem */
+    background: #21170b; /* Scrollbar color */
+    border-radius: 10px; /* Rounded corner */
+    border: 2px solid #5c5c5c; /* Scrollbar border */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #a1a1a1; /* Cor da barra de rolagem ao passar o mouse */
+    background: #a1a1a1; /* Scrollbar color on hover */
 }
 
 /* Firefox */
 * {
-    scrollbar-width: thin; /* Largura fina da barra de rolagem */
-    scrollbar-color: #21170b #58503d; /* Cor da barra de rolagem e da track */
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #21170b #58503d; /* Scrollbar and track colors */
 }
 
 body {
@@ -44,6 +44,7 @@ main {
 }
 main section#top {
     grid-area: top;
+    min-width: 0;
 
     display: flex;
     flex-direction: column;
@@ -68,13 +69,14 @@ main section#top div#top-buttons a > img {
     width: 200px;
     /*height: 138px;*/
 }
-main section#top div#linha {
+main section#top div#divider {
     background-color: #000;
     height: 2px;
     width: 85%;
 }
 main section#down {
     grid-area: down;
+    min-width: 0;
 
     color: #fff;
 
@@ -86,13 +88,14 @@ main section#down {
 }
     @media only screen and (max-width: 910px) {
         main section#top {
-            margin-top: 20px;
             flex-wrap: wrap;
             align-content: center;
         }
-        main section#top > a { margin: 0 5px; }
-        main section#down {
-            margin-top: 20px;
+        main section#top div#top-buttons > a {
+            margin: 16px;
+        }
+        main section#top div#top-buttons a > img {
+            width: min(200px, 24vw);
         }
     }
 main section#down > p {
@@ -101,9 +104,9 @@ main section#down > p {
     width: 90%;
 }
 
-/* --------------------- E N V I A R --------------------- */
+/* --------------------- S E N D --------------------- */
 
-div#frente {
+div#popup {
     background-image: url(../img/lousa.png);
     background-repeat: no-repeat;
     background-size: contain;
@@ -117,19 +120,19 @@ div#frente {
     align-items: center;
     justify-content: center;
 }
-div#frente > p {
+div#popup > p {
     font-family: 'Indie Flower', cursive;
     font-weight: bold;
     font-size: 14pt;
     color: #fff;
 }
-div#frente > img#ravenPutasso {
+div#popup > img#angryRaven {
     position: absolute;
     height: 100px;
     top: -70px;
     left: 140px;
 }
-div#fundo {
+div#backdrop {
     filter: alpha(opacity = 60);
             opacity: .60;
     background-color: #000;
@@ -142,84 +145,84 @@ div#fundo {
     left: 0%;
     top: 0%;
 }
-div#fundo > a {
+div#backdrop > a {
     float: right;
     margin: 7px;
 }
 
-main#envRec {
+main#sendReceive {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     display: flex;
 }
-main#envRec section#env {
+main#sendReceive section#compose {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     display: flex;
 }
-main#envRec section#env div#pergaminho {
+main#sendReceive section#compose div#scroll {
     background-image: url(../img/escrever.png);
 }
-main#envRec section#env a {
+main#sendReceive section#compose a {
     margin: 10px 0 5px 55px;
 }
-main#envRec section#env a:hover {
+main#sendReceive section#compose a:hover {
     border-bottom: #000 double 2px;
     margin-bottom: 3px;
 }
-main#envRec section#env a img{
+main#sendReceive section#compose a img{
     width: 80px;
 }
-/* Uso em ambos */
-main#envRec section div#pergaminho {
+/* Used on both pages. Box stays square and inside the window. */
+main#sendReceive section div#scroll {
     background-repeat: no-repeat;
     background-size: contain;
 
-    width: 500px;
-    height: 500px;
+    width: min(500px, 92vw, 74vh);
+    height: min(500px, 92vw, 74vh);
 
     justify-content: center;
     align-items: center;
     display: flex;
 }
-main#envRec section div#pergaminho textarea{
+main#sendReceive section div#scroll textarea{
     font-family: 'Indie Flower', cursive;
     text-align: justify;
     background: none;
-    font-size: 16pt;
+    font-size: calc(16pt * min(500px, 92vw, 74vh) / 500px);
     border: none;
 
-    height: 390px;
+    height: 78%;
     resize: none;
-    width: 324px;
+    width: 64.8%;
 
-    margin-left: 40px;
+    margin-left: 8%;
 
-    /*Retira a borda brilhante do textarea*/
+    /* Remove the textarea focus outline */
     outline: none;
 }
 
-/* --------------------- F I M   E N V I A R --------------------- */
+/* --------------------- E N D   S E N D --------------------- */
 
-/* --------------------- R E C E B E R --------------------- */
+/* --------------------- R E C E I V E --------------------- */
 
 main.rec { position: relative; }
-main#envRec img#ravenToRight {
+main#sendReceive img#ravenToRight {
     position: absolute;
     display: none;
     left: 1%;
     width: 70px;
 
 }
-main#envRec img#ravenWaiting {
+main#sendReceive img#ravenWaiting {
     position: absolute;
     width: 20%;
     bottom: 0;
     left: 1px;
 }
-main#envRec section#rec {
+main#sendReceive section#rec {
     justify-content: center;
     flex-direction: column;
     align-items: center;
@@ -230,7 +233,7 @@ main#envRec section#rec {
     top: 50%;
 }
 
-main#envRec section#areaDoCod div#fundCodRec {
+main#sendReceive section#codeArea div#codeEntry {
     grid-template-rows: 100%;
     display: grid;
 
@@ -241,7 +244,7 @@ main#envRec section#areaDoCod div#fundCodRec {
     background-repeat: no-repeat;
     background-size: contain;
 }
-main#envRec section#areaDoCod div#fundCodRec input {
+main#sendReceive section#codeArea div#codeEntry input {
     background: none;
     outline: none;
     border: none;
@@ -254,43 +257,43 @@ main#envRec section#areaDoCod div#fundCodRec input {
     width: 90px;
 }
 
-main#envRec section#rec > p { color: #fff; }
+main#sendReceive section#rec > p { color: #fff; }
 
-/* --------------------- F I M   R E C E B E R --------------------- */
+/* --------------------- E N D   R E C E I V E --------------------- */
 
-/* --------------------- P A R T 2   E N V I A R --------------------- */
+/* --------------------- P A R T 2   S E N D --------------------- */
 
-main#envRec img#ravenToLeft {
+main#sendReceive img#ravenToLeft {
     position: absolute;
     width: 70px;
 }
 
-main#envRec a#voltarSemPositionAbsl {
+main#sendReceive a#backInFlow {
     margin-bottom: 10px;
     left: 20px;
     top: 10px;
 }
-main#envRec a#voltarSemPositionAbsl:hover {
+main#sendReceive a#backInFlow:hover {
     border-bottom: #000 double 2px;
     margin-bottom: 8px;
 }
 
-/* Estou usando em ambas as páginas */
-main#envRec a#voltar {
+/* Used on both pages */
+main#sendReceive a#back {
     position: absolute;
     margin-bottom: 10px;
     left: 20px;
     top: 10px;
 }
-main#envRec a#voltar:hover {
+main#sendReceive a#back:hover {
     border-bottom: #000 double 2px;
     margin-bottom: 8px;
 }
-main#envRec a#voltar img {
+main#sendReceive a#back img {
     width: 50px;
 }
 
-main#envRec section#areaDoCod {
+main#sendReceive section#codeArea {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -300,11 +303,11 @@ main#envRec section#areaDoCod {
     height: 50%;
     top: 50%;
 }
-main#envRec section#areaDoCod > p {
+main#sendReceive section#codeArea > p {
     color: #fff;
 }
 
-main#envRec section#areaDoCod div#fundCod {
+main#sendReceive section#codeArea div#codeDigits {
     grid-template-columns: 27% 23% 23% 27%;
     grid-template-areas: 'p1 p2 p3 p4';
     grid-template-rows: 100%;
@@ -317,8 +320,8 @@ main#envRec section#areaDoCod div#fundCod {
     background-repeat: no-repeat;
     background-size: contain;
 }
-/* Ultilizo em enviar e em receber*/
-main#envRec section#areaDoCod div#fundCod > div {
+/* Used on send and on receive */
+main#sendReceive section#codeArea div#codeDigits > div {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -327,12 +330,102 @@ main#envRec section#areaDoCod div#fundCod > div {
     font-size: 17pt;
 }
 
-/* --------------------- F I M   P A R T 2   E N V I A R --------------------- */
+/* --------------------- E N D   P A R T 2   S E N D --------------------- */
 
-/* --------------------- P A R T 2   R E C E B E R --------------------- */
+/* --------------------- P A R T 2   R E C E I V E --------------------- */
 
-main#envRec section#recMsg div#pergaminho {
+main#sendReceive section#received div#scroll {
     background-image: url(../img/escrever2.png);
 }
 
-/* --------------------- F I M   P A R T 2   R E C E B E R --------------------- */
+/* --------------------- E N D   P A R T 2   R E C E I V E --------------------- */
+
+@media (orientation: portrait) {
+    main {
+        grid-template-rows: 60vh 40vh;
+        width: 98vw;
+    }
+    main section#top {
+        flex-direction: column !important;
+    }
+    main section#top div#top-buttons {
+        flex-direction: column !important;
+    }
+    main section#top div#top-buttons > a {
+        margin: 10px 12px;
+    }
+    main section#top div#top-buttons a > img {
+        width: min(350px, 72vw, 22vh) !important;
+        height: auto;
+    }
+    main section#down > p {
+        font-size: 20pt !important;
+    }
+
+    main#sendReceive {
+        --scroll: min(900px, 94vw, 58vh - 210px);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        display: flex;
+        width: 98vw;
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+    main#sendReceive a#backInFlow {
+        position: static;
+        align-self: flex-start;
+        margin: 12px 0 8px 12px;
+    }
+    main#sendReceive a#backInFlow img {
+        width: calc(80px * var(--scroll) / 900px);
+    }
+    main#sendReceive a#back {
+        left: 10px;
+    }
+    main#sendReceive a#back img {
+        width: 80px;
+    }
+    main#sendReceive section#compose a {
+        margin: 10px 0 20px calc(85px * var(--scroll) / 900px);
+    }
+    main#sendReceive section#compose a img {
+        width: calc(160px * var(--scroll) / 900px);
+    }
+    main#sendReceive section div#scroll {
+        width: var(--scroll);
+        height: var(--scroll);
+    }
+    main#sendReceive section div#scroll textarea {
+        font-size: calc(35pt * var(--scroll) / 900px);
+        height: 76.6667%;
+        width: 66%;
+        margin-left: 7.7778%;
+    }
+    main#sendReceive img#ravenToLeft {
+        width: 120px;
+    }
+    main#sendReceive section#codeArea > p {
+        font-size: 35pt;
+    }
+    main#sendReceive section#codeArea div#codeDigits {
+        width: 300px;
+        height: 120px;
+    }
+    main#sendReceive section#codeArea div#codeDigits > div {
+        font-size: 51pt;
+    }
+    main#sendReceive img#ravenToRight {
+        width: 120px;
+    }
+    main#sendReceive section#codeArea div#codeEntry {
+        width: 300px;
+        height: 120px;
+    }
+    main#sendReceive section#codeArea div#codeEntry input {
+        font-size: 68pt;
+        margin-left: 26px;
+        width: 270px;
+    }
+}

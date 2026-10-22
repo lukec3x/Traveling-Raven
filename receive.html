@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Receive | Raven Traveler</title>
+
+    <link rel="icon" href="img/icon/favicon-full.png" sizes="any">
+    <!-- Icons for specific resolutions -->
+    <link rel="icon" href="img/icon/favicon-16x16.ico" sizes="16x16" type="image/x-icon">
+    <link rel="icon" href="img/icon/favicon-32x32.ico" sizes="32x32" type="image/x-icon">
+    <link rel="icon" href="img/icon/favicon-48x48.ico" sizes="48x48" type="image/x-icon">
+    <link rel="icon" href="img/icon/favicon-64x64.ico" sizes="64x64" type="image/x-icon">
+    <link rel="icon" href="img/icon/favicon-128x128.ico" sizes="128x128" type="image/x-icon">
+    <link rel="icon" href="img/icon/favicon-256x256.ico" sizes="256x256" type="image/x-icon">
+    <!-- Apple touch icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="img/icon/apple-touch-icon.png">
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div id="popup" data-testid="not-found-popup">
+      <img id="angryRaven" src="img/ravenPutasso.gif" alt>
+      <p>Scroll not found!</p>
+    </div>
+    <div id="backdrop" data-testid="popup-backdrop" onclick="closePopup()">
+      <a href="javascript:void(0)" onclick="closePopup()">
+        <img src="img/fechar.png">
+      </a>
+    </div>
+    <main id="sendReceive" class="rec">
+      <a id="back" href="index.html">
+        <img src="img/home.png" alt>
+      </a>
+      <img id="ravenToRight" src="./img/ravenToRight.gif">
+      <img id="ravenWaiting" src="./img/ravenWaiting.gif">
+      <section id="codeArea">
+        <p>Enter the 4-digit code:</p>
+        <div id="codeEntry">
+          <input id="i0" data-testid="receive-code" maxlength="7" oninput="formatCode()" type="text"
+            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            autofocus>
+          <!-- onkeypress allows only digits in the text input -->
+        </div>
+      </section>
+    </main>
+    <script
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script
+      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

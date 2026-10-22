@@ -1,4 +1,4 @@
-//Nome da pasta no Banco de Dados
+// Database folder name
 var dbName = 'dados' //'dados' //'dadosTeste'
 
 var firebaseConfig = {
@@ -17,67 +17,55 @@ try {
     firebase.database().useEmulator('127.0.0.1', 9000)
   }
 } catch (e) {
-  //faz nada, já qu enão tem a menor necessidade
+  // Home has no Firebase SDK. Ignore the missing global.
 }
 
 var naoEncontrado = true
 
-function verificarEnv() {
-  if (document.querySelector('div#pergaminho > textarea').value == '') {
-    //alert('O corvo recusa-se a levar um pergaminho vazio!')
-    document.getElementById('frente').style.display = 'flex'
-    document.getElementById('fundo').style.display = 'block'
+function checkSend() {
+  if (document.querySelector('div#scroll > textarea').value == '') {
+    //alert('The raven refuses to carry an empty scroll!')
+    document.getElementById('popup').style.display = 'flex'
+    document.getElementById('backdrop').style.display = 'block'
   } else
-    enviar()
+    send()
 }
 
-function fecharPopup() {
-  document.getElementById('frente').style.display = 'none'
-  document.getElementById('fundo').style.display = 'none'
+function closePopup() {
+  document.getElementById('popup').style.display = 'none'
+  document.getElementById('backdrop').style.display = 'none'
 }
 
-function enviar() {
+function send() {
   var numLista = []
   var numRand = ''
-  // Gera número de 4 ou 5 digitos
-  //  Coloqui no começo para não da comflito com os frames
-  for (let i = 1; i < 5; i++) { // mudei de var para let para a variavel não vazar
+  // Build a 4-digit code before the frames start
+  // so the loop variable does not clash with the animation index
+  for (let i = 1; i < 5; i++) { // let keeps the counter inside the loop
     numLista[i - 1] = (Math.floor(Math.random() * 10 + 1 - 1)).toString()
     numRand += numLista[i - 1]
   }
 
-  // Pega a string do textarea antes que ele seja apagado
-  var msg = document.querySelector('div#pergaminho textarea').value
-  try {
-    document.getElementById('envRec').innerHTML = ''
-  } catch (error) {
-    document.getElementById('main-mobile-2').innerHTML = ''
-  }
+  // Read the textarea before it is cleared
+  var msg = document.querySelector('div#scroll textarea').value
+  var main = document.getElementById('sendReceive')
+  main.innerHTML = ''
 
-  // Cria a imagem
+  // Create the raven image
   var obj1 = document.createElement('img')
   obj1.id = 'ravenToLeft'
   obj1.src = './img/ravenToLeft.gif'
-  try {
-    document.getElementById('envRec').style.position = 'relative'
-    document.getElementById('envRec').appendChild(obj1)
-  } catch (e) {
-    document.getElementById('main-mobile-2').style.position = 'relative'
-    document.getElementById('main-mobile-2').appendChild(obj1)
-  }
+  main.style.position = 'relative'
+  main.appendChild(obj1)
 
   var objA = document.createElement('a')
   objA.href = './index.html'
-  objA.id = 'voltar'
-  try {
-    document.getElementById('envRec').appendChild(objA)
-  } catch (error) {
-    document.getElementById('main-mobile-2').appendChild(objA)
-  }
+  objA.id = 'back'
+  main.appendChild(objA)
 
   var objImg = document.createElement('img')
   objImg.src = './img/home.png'
-  document.getElementById('voltar').appendChild(objImg)
+  document.getElementById('back').appendChild(objImg)
 
   let w = window.innerWidth
   let h = window.innerHeight
@@ -89,23 +77,19 @@ function enviar() {
   obj1.style.left = `${i}%`
 
   var obj2 = document.createElement('section')
-  obj2.id = 'areaDoCod'
-  try {
-    document.getElementById('envRec').appendChild(obj2)
-  } catch (error) {
-    document.getElementById('main-mobile-2').appendChild(obj2)
-  }
+  obj2.id = 'codeArea'
+  main.appendChild(obj2)
 
   var objp = document.createElement('p')
-  objp.innerText = 'Seu código:'
+  objp.innerText = 'Your code:'
   document.querySelector('main > section').appendChild(objp)
 
-  // Div com a imagem de fundo
+  // Digit grid background
   var obj3 = document.createElement('div')
-  obj3.id = 'fundCod'
+  obj3.id = 'codeDigits'
   document.querySelector('main > section').appendChild(obj3)
 
-  // As 4 Divs com os números separados
+  // Four separate digit cells
   var obj4 = document.createElement('div')
   obj4.dataset.testid = 'code-digit'
   obj4.style.gridArea = 'p1'
@@ -147,8 +131,8 @@ function enviar() {
     console.error(error)
   })
 
-  // Controla o frame da imagem
-  var frames = 100 // Valor de uso: 100
+  // Advance the raven frame
+  var frames = 100 // In use: 100
   var myvar = setInterval(function () {
     obj1.style.left = `${i}%`
     i--
@@ -164,7 +148,7 @@ function enviar() {
 var i0 = document.getElementById('i0')
 var newCod
 
-const veriCod = () => {
+const formatCode = () => {
 
   newCod = i0.value.replace(/\D/g, '')
 
@@ -187,20 +171,20 @@ const veriCod = () => {
     console.log(newCod)
     i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]} ${newCod[3]}`
 
-    recInputCod()
+    receiveCode()
 
   } else {
     i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]} ${newCod[3]}`
   }
 }
 
-function recInputCod() {
-  //alert('chama função do corvo')
+function receiveCode() {
+  //alert('call the raven')
 
   i0.readOnly = true
 
   var recebido = false
-  //funcao de busca dos dados
+  // Look up the note
 
   var mensg = ''
 
@@ -216,30 +200,30 @@ function recInputCod() {
       if (db.ID == buscId) {
         mensg = db.Mensagem
 
-        // Apaga a mensagem do banco
+        // Delete the note from the database
         firebase.database().ref(dbName).child(childSnapshot.key).remove()
         //firebase.database().ref('dados').child(childSnapshot.key).remove()
         //firebase.database().ref('dados').child(childSnapshot.key).remove()
 
         recebido = true
         naoEncontrado = false
-        //console.log('Vai ficar com erro mesmo')
+        //console.log('this error stays')
         //return value === db.ID
       }
     })
 
     if (naoEncontrado) {
-      document.getElementById('frente').style.display = 'flex'
-      document.getElementById('fundo').style.display = 'block'
+      document.getElementById('popup').style.display = 'flex'
+      document.getElementById('backdrop').style.display = 'block'
 
-      document.getElementById('fundo').addEventListener('click', function(){
-        window.location.href = './receber.html'
+      document.getElementById('backdrop').addEventListener('click', function(){
+        window.location.href = './receive.html'
       })
     }
   })
 
-  // Controla o frame da imagem
-  var frames = 60 // Valor de uso: 100
+  // Advance the raven frame
+  var frames = 60 // In use: 60
   var i = 1
   var raven = document.getElementById('ravenToRight')
 
@@ -251,44 +235,33 @@ function recInputCod() {
     i++
 
     if (recebido == true && i == 90) {
-      //faaz a mudança de tela
-      try {
-        document.getElementById('envRec').innerHTML = ''
-      } catch (error) {
-        document.getElementById('main-mobile-2').innerHTML = ''
-      }
+      // Swap the screen for the received scroll
+      var main = document.getElementById('sendReceive')
+      main.innerHTML = ''
 
       var obj1 = document.createElement('a')
-      obj1.id = 'voltar'
+      obj1.id = 'back'
       obj1.href = 'index.html'
-      try {
-        document.getElementById('envRec').appendChild(obj1)
-      } catch (e) {
-        document.getElementById('main-mobile-2').appendChild(obj1)
-      }
+      main.appendChild(obj1)
 
       var objImg = document.createElement('img')
       objImg.src = './img/home.png'
-      document.getElementById('voltar').appendChild(objImg)
+      document.getElementById('back').appendChild(objImg)
 
       var obj3 = document.createElement('section')
-      obj3.id = 'recMsg'
-      try {
-        document.getElementById('envRec').appendChild(obj3)
-      } catch (error) {
-        document.getElementById('main-mobile-2').appendChild(obj3)
-      }
+      obj3.id = 'received'
+      main.appendChild(obj3)
 
       var obj4 = document.createElement('div')
-      obj4.id = 'pergaminho'
-      document.querySelector('main section#recMsg').appendChild(obj4)
+      obj4.id = 'scroll'
+      document.querySelector('main section#received').appendChild(obj4)
 
       var obj5 = document.createElement('textarea')
       obj5.dataset.testid = 'received-message'
       obj5.autofocus = true
       obj5.readOnly = true
       obj5.innerText = mensg
-      document.getElementById('pergaminho').append(obj5)
+      document.getElementById('scroll').append(obj5)
 
     } else if (recebido == false && i == 90) {
       i = 1
