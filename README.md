@@ -24,6 +24,14 @@ docker compose up --build
 
 Site: http://localhost:8080 — emulator UI: http://localhost:4000. On `localhost`, send/receive use the Realtime Database emulator, not production.
 
+With Compose already running, the send/receive checks use `http://127.0.0.1:8080` and the emulator on port 9000:
+
+```bash
+npm ci
+npx playwright install chromium
+npx playwright test
+```
+
 Without Docker, open `index.html` (or any static server). Production hosts keep using the live Firebase project in `js/script.js`.
 
 ## Layout

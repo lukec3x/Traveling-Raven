@@ -28,11 +28,11 @@
     </script>
   </head>
   <body>
-    <div id="frente">
+    <div id="frente" data-testid="not-found-popup">
       <img id="ravenPutasso" src="img/ravenPutasso.gif" alt>
       <p>Pergaminho não encontrado!</p>
     </div>
-    <div id="fundo" onclick="fecharPopup()">
+    <div id="fundo" data-testid="popup-backdrop" onclick="fecharPopup()">
       <a href="javascript:void(0)" onclick="fecharPopup()">
         <img src="img/fechar.png">
       </a>
@@ -46,7 +46,7 @@
       <section id="areaDoCod">
         <p>Informe o código de 4 digitos:</p>
         <div id="fundCodRec">
-          <input id="i0" maxlength="7" oninput="veriCod()" type="text"
+          <input id="i0" data-testid="receive-code" maxlength="7" oninput="veriCod()" type="text"
             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
             autofocus>
           <!-- Esse evendo no onkeypress é para permitir somente números no input text -->
