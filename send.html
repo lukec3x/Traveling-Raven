@@ -1,50 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Enviar | Raven Traveler</title>
+    <title>Send | Raven Traveler</title>
 
     <link rel="icon" href="img/icon/favicon-full.png" sizes="any">
-    <!-- Ícones específicos para diferentes resoluções -->
+    <!-- Icons for specific resolutions -->
     <link rel="icon" href="img/icon/favicon-16x16.ico" sizes="16x16" type="image/x-icon">
     <link rel="icon" href="img/icon/favicon-32x32.ico" sizes="32x32" type="image/x-icon">
     <link rel="icon" href="img/icon/favicon-48x48.ico" sizes="48x48" type="image/x-icon">
     <link rel="icon" href="img/icon/favicon-64x64.ico" sizes="64x64" type="image/x-icon">
     <link rel="icon" href="img/icon/favicon-128x128.ico" sizes="128x128" type="image/x-icon">
     <link rel="icon" href="img/icon/favicon-256x256.ico" sizes="256x256" type="image/x-icon">
-    <!-- Apple Touch Icon (para dispositivos iOS) -->
+    <!-- Apple touch icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="img/icon/apple-touch-icon.png">
 
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/style.mobile.css">
-    <script>
-        let w = window.innerWidth
-        let h = window.innerHeight
-        if (h < w) {
-            window.location.href = 'enviar.html'
-        }
-    </script>
 </head>
 <body>
-    <div id="frente" data-testid="empty-popup">
-        <img id="ravenPutasso" src="img/ravenPutasso.gif" alt="">
-        <p>O corvo recusa-se a levar um pergaminho vazio!</p>
+    <div id="popup" data-testid="empty-popup">
+        <img id="angryRaven" src="img/ravenPutasso.gif" alt="">
+        <p>The raven refuses to carry an empty scroll!</p>
     </div>
-    <div id="fundo" data-testid="popup-backdrop" onclick="fecharPopup()">
-        <a href="javascript:void(0)" onclick="fecharPopup()">
+    <div id="backdrop" data-testid="popup-backdrop" onclick="closePopup()">
+        <a href="javascript:void(0)" onclick="closePopup()">
             <img src="img/fechar.png">
         </a>
     </div>
-    <main id="main-mobile-2">
-        <a id="voltarSemTop" href="index-mobile.html">
+    <main id="sendReceive">
+        <a id="backInFlow" href="index.html">
             <img src="img/home.png" alt="">
         </a>
-        <section id="env">
-            <div id="pergaminho">
+        <section id="compose">
+            <div id="scroll">
                 <textarea data-testid="message-input" autofocus></textarea>
             </div>
-            <a href="#" data-testid="send-button" onclick="verificarEnv()">
+            <a href="#" data-testid="send-button" onclick="checkSend()">
                 <img src="img/btnEnviar.png" alt="">
             </a>
         </section>

@@ -14,7 +14,7 @@ The home screen has two actions:
 - **Send** — write on the scroll. The raven refuses an empty scroll. If there is text, the note is stored and the site shows a 4-digit code.
 - **Receive** — enter that code. If the note exists, the scroll opens; if not, you get a not-found warning. The note is deleted after it is read.
 
-Portrait screens use the `*-mobile.html` pages; landscape uses the desktop pages.
+Portrait and landscape are the same page. The portrait layout lives in `css/style.css` inside `@media (orientation: portrait)`.
 
 ## Run locally
 
@@ -37,9 +37,8 @@ Without Docker, open `index.html` (or any static server). Production hosts keep 
 ## Layout
 
 ```
-index.html, enviar.html, receber.html          # desktop
-index-mobile.html, enviar-mobile.html, …
-css/                                          # styles
-js/script.js                                  # send, code, Firebase
-img/                                          # ravens, scroll, icons
+index.html, send.html, receive.html
+css/style.css
+js/script.js
+img/
 ```

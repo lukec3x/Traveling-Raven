@@ -4,7 +4,7 @@ Agent-facing doc. `README.md` is for people using the site.
 
 Static site (HTML/CSS/JS, no bundler, no backend). GitHub/domain name: **Traveling Raven**. Page title: **Raven Traveler**. One-shot note: sending creates a 4-digit code; receiving reads the note and deletes it from Firebase Realtime Database.
 
-Language: product copy is moving to English. These markdown files are already English. HTML, JS comments, and on-screen strings are still Portuguese until that pass. New UI copy should be English. The Latin block on the home page is intentional.
+Language: on-screen copy, HTML comments, and JS comments are English. The Latin block on the home page is intentional. Database field names stay `dados`, `ID`, and `Mensagem`.
 
 ## Invariants
 
@@ -12,8 +12,8 @@ Language: product copy is moving to English. These markdown files are already En
 - Realtime Database folder: `dados` (`dbName` in `js/script.js`). Record: `{ ID, Mensagem }`. Field names in the database stay as they are unless a migration is requested.
 - `ID` is a 4-digit string (0–9), generated on the client. Collisions are possible; current code does not check uniqueness.
 - Receive runs `orderByKey()` + `forEach` over **all** records in `dados`. When `ID` matches, the node is removed. A code works once.
-- Shared behavior lives only in `js/script.js`. Desktop and mobile do not have separate JS.
-- Desktop/mobile redirect is by **orientation** (`innerHeight` vs `innerWidth`), not user-agent. Home also loads WURFL, but each page’s redirect is the `if` in `<head>`.
+- Shared behavior lives only in `js/script.js`. Each screen is one HTML file. Portrait and landscape are CSS, not a second page.
+- Portrait rules are the `@media (orientation: portrait)` block at the end of `css/style.css`. There is no orientation redirect and no WURFL script.
 - Firebase is only on send/receive pages (CDN: `firebase-app` + `firebase-database` 8.10.1). Home does not need the SDK, but still includes `script.js`. On `localhost` / `127.0.0.1`, `useEmulator('127.0.0.1', 9000)` points at the Docker Realtime Database emulator.
 - Firebase credentials are in the client (`firebaseConfig` in `js/script.js`). Do not copy the key into other docs; do not treat it as a server secret.
 
@@ -21,25 +21,22 @@ Language: product copy is moving to English. These markdown files are already En
 
 | Area | Files |
 | --- | --- |
-| Home | `index.html`, `index-mobile.html` |
-| Send | `enviar.html`, `enviar-mobile.html` |
-| Receive | `receber.html`, `receber-mobile.html` |
+| Home | `index.html` |
+| Send | `send.html` |
+| Receive | `receive.html` |
 | Behavior | `js/script.js` |
-| Desktop look | `css/style.css` |
-| Mobile look | `css/style.mobile.css` (on top of desktop CSS) |
+| Look | `css/style.css` (portrait block at the end) |
 | Assets | `img/` |
 
-Mobile pages use `main#main-mobile` (home) or `main#main-mobile-2` (send/receive). Desktop send/receive uses `main#envRec`. JS switches between those with `try/catch` on `getElementById`. Changing one id without the other breaks send/receive.
-
-Mobile home links to `enviar-mobile.html` / `receber-mobile.html`. The back button on mobile goes to `index-mobile.html`; on desktop, to `index.html`. Filenames stay Portuguese until a rename pass.
+Send and receive use `main#sendReceive`. The home `main` has no id. Back and the end of send go to `index.html`. A missing code reloads `receive.html`. CSS class names stay as they are. A rename of an id has to land in the HTML, in `js/script.js` (including nodes it creates), and in the CSS selectors together.
 
 ## JS flows
 
-**Send** — `verificarEnv()` → empty textarea shows a popup (`#frente` / `#fundo`); otherwise `enviar()`: generate 4 digits, clear main, animate `ravenToLeft.gif` right to left, `push` to Firebase, show the digits, then redirect to `index.html` (including the mobile flow).
+**Send** — `checkSend()` → empty textarea shows a popup (`#popup` / `#backdrop`); otherwise `send()`: generate 4 digits, clear main, animate `ravenToLeft.gif` right to left, `push` to Firebase, show the digits, then redirect to `index.html`.
 
-**Receive** — `#i0` + `veriCod()` formats with spaces (`1 2 3 4`, `maxlength="7"`). At 4 digits it calls `recInputCod()`: input becomes `readOnly`, animates `ravenToRight`, queries Firebase. Success builds `#recMsg` + a readonly textarea. Failure: popup. On desktop, clicking the overlay reloads `receber.html` (not the mobile variant).
+**Receive** — `#i0` + `formatCode()` formats with spaces (`1 2 3 4`, `maxlength="7"`). At 4 digits it calls `receiveCode()`: input becomes `readOnly`, animates `ravenToRight`, queries Firebase. Success builds `#received` + a readonly textarea. Failure: popup. Clicking the overlay reloads `receive.html`.
 
-Popups: `fecharPopup()` only hides `#frente` and `#fundo`. Popup copy lives in the HTML (send: empty scroll; receive desktop: not found). Check all three pages if that copy changes.
+Popups: `closePopup()` only hides `#popup` and `#backdrop`. Popup copy lives in the HTML (send: empty scroll; receive: not found). Check all three pages if that copy changes.
 
 ## Commits
 
@@ -56,11 +53,10 @@ type(optional-scope): short description
 
 ## Editing conventions
 
-- Keep the desktop/mobile pair in sync when the change is shared flow or markup.
 - Do not add a build step, framework, or backend unless asked.
 - Do not log the user’s message. Avoid extra `console.log` of codes.
-- Animation uses `setInterval` + `style.left` in `%`. Constants: send `frames = 100`; receive `frames = 60`. Send starting position desktop vs mobile: `i = 84` vs `88`.
-- Function names, DOM ids, and DB field names (`verificarEnv`, `envRec`, `Mensagem`, …) stay as in the code unless a rename is requested.
+- Animation uses `setInterval` + `style.left` in `%`. Constants: send `frames = 100`; receive `frames = 60`. Send starts at `i = 88` when `innerHeight > innerWidth`, and at `84` otherwise. The reset while the write has not returned stays `i = 88`.
+- DB field names (`dados`, `ID`, `Mensagem`) stay unless a migration is requested. CSS class names stay unless a rename is requested.
 
 ## Deploy
 
