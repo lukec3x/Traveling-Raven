@@ -5,3 +5,7 @@ firebase-debug.*.log
 ui-debug.log
 database-debug.log
 .firebase/
+node_modules
+test-results
+playwright-report
+blob-report

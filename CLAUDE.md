@@ -68,4 +68,6 @@ Static. GitHub Pages: `https://lukec3x.github.io/Traveling-Raven/`. Domain: `htt
 
 Local: `docker compose up --build` — nginx on `:8080`, Realtime Database emulator on `:9000`, emulator UI on `:4000`.
 
+Send/receive checks run on the host, after Compose is up: `npm ci`, `npx playwright install chromium`, `npx playwright test`. The suite opens `http://127.0.0.1:8080` only and reads `dados` from the emulator. Screens are found by `data-testid` in the HTML and on the nodes `js/script.js` creates after send and receive.
+
 There is no `ai/INDEX.md` and no `*.skills.md`. This file is the canonical agent doc.

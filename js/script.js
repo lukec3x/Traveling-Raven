@@ -107,18 +107,22 @@ function enviar() {
 
   // As 4 Divs com os números separados
   var obj4 = document.createElement('div')
+  obj4.dataset.testid = 'code-digit'
   obj4.style.gridArea = 'p1'
   document.querySelector('main > section > div').appendChild(obj4)
 
   var obj5 = document.createElement('div')
+  obj5.dataset.testid = 'code-digit'
   obj5.style.gridArea = 'p2'
   document.querySelector('main > section > div').appendChild(obj5)
 
   var obj6 = document.createElement('div')
+  obj6.dataset.testid = 'code-digit'
   obj6.style.gridArea = 'p3'
   document.querySelector('main > section > div').appendChild(obj6)
 
   var obj7 = document.createElement('div')
+  obj7.dataset.testid = 'code-digit'
   obj7.style.gridArea = 'p4'
   document.querySelector('main > section > div').appendChild(obj7)
 
@@ -280,6 +284,7 @@ function recInputCod() {
       document.querySelector('main section#recMsg').appendChild(obj4)
 
       var obj5 = document.createElement('textarea')
+      obj5.dataset.testid = 'received-message'
       obj5.autofocus = true
       obj5.readOnly = true
       obj5.innerText = mensg

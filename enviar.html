@@ -26,11 +26,11 @@
     </script>
 </head>
 <body>
-    <div id="frente">
+    <div id="frente" data-testid="empty-popup">
         <img id="ravenPutasso" src="img/ravenPutasso.gif" alt="">
         <p>O corvo recusa-se a levar um pergaminho vazio!</p>
     </div>
-    <div id="fundo" onclick="fecharPopup()">
+    <div id="fundo" data-testid="popup-backdrop" onclick="fecharPopup()">
         <a href="javascript:void(0)" onclick="fecharPopup()">
             <img src="img/fechar.png">
         </a>
@@ -41,9 +41,9 @@
         </a>
         <section id="env">
             <div id="pergaminho">
-                <textarea autofocus></textarea>
+                <textarea data-testid="message-input" autofocus></textarea>
             </div>
-            <a href="#" onclick="verificarEnv()">
+            <a href="#" data-testid="send-button" onclick="verificarEnv()">
                 <img src="img/btnEnviar.png" alt="">
             </a>
         </section>
