@@ -93,10 +93,10 @@ test('empty scroll opens the popup and writes nothing', async ({ page, request }
   await assertLoopback(page)
   await page.getByTestId('send-button').click()
   await expect(page.getByTestId('empty-popup')).toBeVisible()
-  await expect(page.getByTestId('empty-popup')).toContainText('The raven refuses to carry an empty scroll!')
+  await expect(page.getByTestId('empty-popup')).toContainText('O corvo recusa-se a levar um pergaminho vazio!')
   await expect(page.getByTestId('popup-backdrop')).toBeVisible()
-  await expect(page).toHaveTitle('Send | Raven Traveler')
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+  await expect(page).toHaveTitle('Enviar | Raven Traveler')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'pt-br')
   expect(await readDados(request)).toBeNull()
 })
 
@@ -127,7 +127,7 @@ test('a note is stored once and a second read is not found', async ({ page, requ
   await assertLoopback(page)
   await page.getByTestId('receive-code').fill(code)
   await expect(page.getByTestId('not-found-popup')).toBeVisible()
-  await expect(page.getByTestId('not-found-popup')).toContainText('Scroll not found!')
+  await expect(page.getByTestId('not-found-popup')).toContainText('Pergaminho não encontrado!')
 })
 
 test('an unknown code opens the not-found popup', async ({ page }, testInfo) => {
@@ -137,9 +137,9 @@ test('an unknown code opens the not-found popup', async ({ page }, testInfo) => 
   await assertLoopback(page)
   await page.getByTestId('receive-code').fill('0000')
   await expect(page.getByTestId('not-found-popup')).toBeVisible()
-  await expect(page.getByTestId('not-found-popup')).toContainText('Scroll not found!')
+  await expect(page.getByTestId('not-found-popup')).toContainText('Pergaminho não encontrado!')
   await expect(page.getByTestId('received-message')).toHaveCount(0)
-  await expect(page).toHaveTitle('Receive | Raven Traveler')
+  await expect(page).toHaveTitle('Receber | Raven Traveler')
 })
 
 test('retired portuguese urls do not serve a screen', async ({ page }) => {

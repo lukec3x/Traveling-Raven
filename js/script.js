@@ -81,7 +81,7 @@ function send() {
   main.appendChild(obj2)
 
   var objp = document.createElement('p')
-  objp.innerText = 'Your code:'
+  objp.innerText = 'Seu código:'
   document.querySelector('main > section').appendChild(objp)
 
   // Digit grid background
