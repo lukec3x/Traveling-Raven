@@ -32,6 +32,8 @@ npx playwright install chromium
 npx playwright test
 ```
 
+GitHub Actions runs the same suite on pushes to `master` and on pull requests into `master`. The workflow is `.github/workflows/test.yml`: it starts Compose, then installs Chromium with its system libraries (`--with-deps`, only on the runner).
+
 Without Docker, open `index.html` (or any static server). Production hosts keep using the live Firebase project in `js/script.js`.
 
 ## Layout
