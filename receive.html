@@ -37,19 +37,21 @@
       <img id="ravenToRight" src="./img/ravenToRight.gif">
       <img id="ravenWaiting" src="./img/ravenWaiting.gif">
       <section id="codeArea">
-        <p>Informe o código de 4 digitos:</p>
+        <p>Informe o código de 4 caracteres:</p>
         <div id="codeEntry">
+          <div id="codeDigits">
+            <div data-testid="typed-char" style="grid-area: p1"></div>
+            <div data-testid="typed-char" style="grid-area: p2"></div>
+            <div data-testid="typed-char" style="grid-area: p3"></div>
+            <div data-testid="typed-char" style="grid-area: p4"></div>
+          </div>
           <input id="i0" data-testid="receive-code" maxlength="7" oninput="formatCode()" type="text"
-            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122)"
             autofocus>
-          <!-- onkeypress allows only digits in the text input -->
+          <!-- The input keeps the spaced value. The four cells draw one character per slot. -->
         </div>
       </section>
     </main>
-    <script
-      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script
-      src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>

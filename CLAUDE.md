@@ -2,20 +2,20 @@
 
 Agent-facing doc. `README.md` is for people using the site.
 
-Static site (HTML/CSS/JS, no bundler, no backend). GitHub/domain name: **Traveling Raven**. Page title: **Raven Traveler**. One-shot note: sending creates a 4-digit code; receiving reads the note and deletes it from Firebase Realtime Database.
+Static site (HTML/CSS/JS, no bundler, no backend). GitHub/domain name: **Traveling Raven**. Page title: **Raven Traveler**. One-shot note: sending creates a 4-character code; receiving reads the note and deletes it from Supabase.
 
 Language: on-screen copy is Portuguese. HTML comments and JS comments are English. The Latin block on the home page is intentional. Database field names stay `dados`, `ID`, and `Mensagem`.
 
 ## Invariants
 
 - No login, sessions, queues, or history. The code is the only “address” of a message.
-- Realtime Database folder: `dados` (`dbName` in `js/script.js`). Record: `{ ID, Mensagem }`. Field names in the database stay as they are unless a migration is requested.
-- `ID` is a 4-digit string (0–9), generated on the client. Collisions are possible; current code does not check uniqueness.
-- Receive runs `orderByKey()` + `forEach` over **all** records in `dados`. When `ID` matches, the node is removed. A code works once.
+- Table `public.dados`. Record: `{ ID, Mensagem }`. Field names stay as they are unless a migration is requested.
+- `ID` is four characters from `0–9` and `A–Z`, generated on the client and stored in uppercase. A collision makes `enviar` return false; the client draws another code, up to 20 times.
+- Receive calls `receber`, which deletes only the matching row and returns its `Mensagem`. A code works once. `anon` cannot read or list the table. The publishable key may only execute `enviar` and `receber`.
 - Shared behavior lives only in `js/script.js`. Each screen is one HTML file. Portrait and landscape are CSS, not a second page.
 - Portrait rules are the `@media (orientation: portrait)` block at the end of `css/style.css`. There is no orientation redirect and no WURFL script.
-- Firebase is only on send/receive pages (CDN: `firebase-app` + `firebase-database` 8.10.1). Home does not need the SDK, but still includes `script.js`. On `localhost` / `127.0.0.1`, `useEmulator('127.0.0.1', 9000)` points at the Docker Realtime Database emulator.
-- Firebase credentials are in the client (`firebaseConfig` in `js/script.js`). Do not copy the key into other docs; do not treat it as a server secret.
+- The browser calls PostgREST with `fetch`. There is no database SDK. Home still includes `script.js`. On `localhost` / `127.0.0.1`, the client uses `http://127.0.0.1:54321` and the local anon key. Any other host uses the production URL and publishable key in `js/script.js`. Those two stay empty until a Supabase project exists, and a send then fails onto the slate.
+- Do not copy the publishable key, the production URL, or the local demo JWTs into other docs. The service role is not a client credential.
 
 ## Where to change things
 
@@ -32,9 +32,9 @@ Send and receive use `main#sendReceive`. The home `main` has no id. Back and the
 
 ## JS flows
 
-**Send** — `checkSend()` → empty textarea shows a popup (`#popup` / `#backdrop`); otherwise `send()`: generate 4 digits, clear main, animate `ravenToLeft.gif` right to left, `push` to Firebase, show the digits, then redirect to `index.html`.
+**Send** — `checkSend()` → empty textarea shows a popup (`#popup` / `#backdrop`); otherwise `send()`: draw 4 characters, clear main, animate `ravenToLeft.gif` right to left, call `enviar`, show the characters that were stored, then redirect to `index.html`.
 
-**Receive** — `#i0` + `formatCode()` formats with spaces (`1 2 3 4`, `maxlength="7"`). At 4 digits it calls `receiveCode()`: input becomes `readOnly`, animates `ravenToRight`, queries Firebase. Success builds `#received` + a readonly textarea. Failure: popup. Clicking the overlay reloads `receive.html`.
+**Receive** — `#i0` + `formatCode()` keeps letters and digits, uppercases, and formats with spaces (`A B 1 2`, `maxlength="7"`). At 4 characters it calls `receiveCode()`: input becomes `readOnly`, animates `ravenToRight`, calls `receber`. Success builds `#received` + a readonly textarea. Failure: popup. Clicking the overlay reloads `receive.html`. `ab12` matches `AB12`.
 
 Popups: `closePopup()` only hides `#popup` and `#backdrop`. Popup copy lives in the HTML (send: empty scroll; receive: not found). Check all three pages if that copy changes.
 
@@ -62,10 +62,10 @@ type(optional-scope): short description
 
 Static. GitHub Pages: `https://lukec3x.github.io/Traveling-Raven/`. Domain: `http://travelingraven.com.br`. Edits to HTML/CSS/JS at the repo root are what ships. There is no Pages deploy workflow.
 
-Local: `docker compose up --build` — nginx on `:8080`, Realtime Database emulator on `:9000`, emulator UI on `:4000`.
+Local: `npx supabase start` (API on `:54321`), then `docker compose up` — nginx on `:8080`. Schema lives in `supabase/migrations`.
 
-Send/receive checks run on the host, after Compose is up: `npm ci`, `npx playwright install chromium`, `npx playwright test`. The suite opens `http://127.0.0.1:8080` only and reads `dados` from the emulator. Screens are found by `data-testid` in the HTML and on the nodes `js/script.js` creates after send and receive.
+Send/receive checks run on the host, after both are up: `npm ci`, `npx playwright install chromium`, `npx playwright test`. The suite opens `http://127.0.0.1:8080` only and reads `dados` from `http://127.0.0.1:54321/rest/v1/dados` with the local service role. Screens are found by `data-testid` in the HTML and on the nodes `js/script.js` creates after send and receive.
 
-`.github/workflows/test.yml` runs that suite on `ubuntu-latest` for pushes to `master` and for pull requests into `master`. It starts Compose in the background, waits until `http://127.0.0.1:8080/index.html` and a `DELETE` of `http://127.0.0.1:9000/dados.json?ns=raven-traveler` both succeed, then runs `npm ci`, `npx playwright install --with-deps chromium`, and `npx playwright test`. `--with-deps` is only for the runner. A failed job prints Compose logs and uploads `playwright-report` and `test-results`.
+`.github/workflows/test.yml` runs that suite on `ubuntu-latest` for pushes to `master` and for pull requests into `master`. It starts Supabase, then Compose, waits until `http://127.0.0.1:8080/index.html` and the API on `:54321` both respond, then runs `npm ci`, `npx playwright install --with-deps chromium`, and `npx playwright test`. `--with-deps` is only for the runner. A failed job prints Compose logs and uploads `playwright-report` and `test-results`.
 
 There is no `ai/INDEX.md` and no `*.skills.md`. This file is the canonical agent doc.

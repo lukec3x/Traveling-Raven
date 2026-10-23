@@ -1,23 +1,47 @@
-// Database folder name
-var dbName = 'dados' //'dados' //'dadosTeste'
+// Local API from `supabase start`. Production URL and publishable key stay empty
+// until that project exists. An empty pair fails the send instead of calling loopback.
+var localSupabaseUrl = 'http://127.0.0.1:54321'
+var localSupabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0'
 
-var firebaseConfig = {
-  apiKey: "AIzaSyB4NkRTwFwExEGubKl342IlAnJLymhsEjQ",
-  authDomain: "raven-traveler.firebaseapp.com",
-  databaseURL: "https://raven-traveler.firebaseio.com",
-  projectId: "raven-traveler",
-  storageBucket: "",
-  messagingSenderId: "934556866038",
-  appId: "1:934556866038:web:c1750103b56fbb94"
+var productionSupabaseUrl = ''
+var productionSupabaseKey = ''
+
+var supabaseUrl = localSupabaseUrl
+var supabaseKey = localSupabaseKey
+if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+  supabaseUrl = productionSupabaseUrl
+  supabaseKey = productionSupabaseKey
 }
 
-try {
-  firebase.initializeApp(firebaseConfig)
-  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-    firebase.database().useEmulator('127.0.0.1', 9000)
+var codeAlphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+function rpc(name, body) {
+  if (!supabaseUrl || !supabaseKey) {
+    return Promise.reject(new Error('missing supabase config'))
   }
-} catch (e) {
-  // Home has no Firebase SDK. Ignore the missing global.
+  return fetch(supabaseUrl + '/rest/v1/rpc/' + name, {
+    method: 'POST',
+    headers: {
+      apikey: supabaseKey,
+      Authorization: 'Bearer ' + supabaseKey,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(function (response) {
+    if (!response.ok) throw new Error('rpc failed')
+    return response.json()
+  })
+}
+
+function drawCode() {
+  var chars = []
+  var code = ''
+  for (var n = 0; n < 4; n++) {
+    var ch = codeAlphabet.charAt(Math.floor(Math.random() * codeAlphabet.length))
+    chars.push(ch)
+    code += ch
+  }
+  return { chars: chars, code: code }
 }
 
 var naoEncontrado = true
@@ -36,15 +60,6 @@ function closePopup() {
 }
 
 function send() {
-  var numLista = []
-  var numRand = ''
-  // Build a 4-digit code before the frames start
-  // so the loop variable does not clash with the animation index
-  for (let i = 1; i < 5; i++) { // let keeps the counter inside the loop
-    numLista[i - 1] = (Math.floor(Math.random() * 10 + 1 - 1)).toString()
-    numRand += numLista[i - 1]
-  }
-
   // Read the textarea before it is cleared
   var msg = document.querySelector('div#scroll textarea').value
   var main = document.getElementById('sendReceive')
@@ -112,6 +127,7 @@ function send() {
   var recebido = false
   var sendFailed = false
   var flight = null
+  var tries = 0
 
   function stopFailedSend() {
     sendFailed = true
@@ -120,29 +136,42 @@ function send() {
     document.getElementById('codeArea').style.display = 'none'
   }
 
-  firebase.database().ref(dbName).push({
-    //firebase.database().ref('dadosTeste').push({
-    //firebase.database().ref('dados').push({
-    "ID": numRand,
-    "Mensagem": msg
-  }).then(function (data) {
-    console.log(numLista)
-    console.log(numRand)
-
-    obj4.innerText = numLista[0]
-    obj5.innerText = numLista[1]
-    obj6.innerText = numLista[2]
-    obj7.innerText = numLista[3]
-    recebido = true
-  }).catch(function (error) {
+  function showSendFailure(error) {
     stopFailedSend()
     var popup = document.getElementById('popup')
     popup.dataset.testid = 'send-error-popup'
     popup.querySelector('p').innerText = 'O corvo não conseguiu entregar o pergaminho!'
     popup.style.display = 'flex'
     document.getElementById('backdrop').style.display = 'block'
-    console.error(error)
-  })
+    if (error) console.error(error)
+  }
+
+  function trySend() {
+    if (sendFailed) return
+    if (tries >= 20) {
+      showSendFailure()
+      return
+    }
+    tries += 1
+    var attempt = drawCode()
+    rpc('enviar', { codigo: attempt.code, mensagem: msg }).then(function (stored) {
+      if (sendFailed) return
+      if (stored === true) {
+        obj4.innerText = attempt.chars[0]
+        obj5.innerText = attempt.chars[1]
+        obj6.innerText = attempt.chars[2]
+        obj7.innerText = attempt.chars[3]
+        recebido = true
+        return
+      }
+      trySend()
+    }).catch(function (error) {
+      if (sendFailed) return
+      showSendFailure(error)
+    })
+  }
+
+  trySend()
 
   // Advance the raven frame
   var frames = 100 // In use: 100
@@ -165,76 +194,60 @@ function send() {
 var i0 = document.getElementById('i0')
 var newCod
 
-const formatCode = () => {
+function paintEntry(chars) {
+  var cells = document.querySelectorAll('#codeEntry [data-testid="typed-char"]')
+  for (var n = 0; n < cells.length; n++) {
+    cells[n].textContent = chars[n] || ''
+  }
+}
 
-  newCod = i0.value.replace(/\D/g, '')
+const formatCode = () => {
+  newCod = i0.value.replace(/[^0-9a-zA-Z]/g, '').toUpperCase()
+  paintEntry(newCod)
 
   if (newCod.length === 0) {
+    i0.value = ''
     return
   } else if (newCod.length === 1) {
-    console.log('1 number')
-    console.log(newCod)
     i0.value = newCod
   } else if (newCod.length === 2) {
-    console.log('2 numbers')
-    console.log(newCod)
     i0.value = `${newCod[0]} ${newCod[1]}`
   } else if (newCod.length === 3) {
-    console.log('3 numbers')
-    console.log(newCod)
     i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]}`
   } else if (newCod.length === 4) {
-    console.log('4 numbers')
-    console.log(newCod)
     i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]} ${newCod[3]}`
-
     receiveCode()
-
   } else {
     i0.value = `${newCod[0]} ${newCod[1]} ${newCod[2]} ${newCod[3]}`
   }
+}
+
+function showNotFound() {
+  document.getElementById('popup').style.display = 'flex'
+  document.getElementById('backdrop').style.display = 'block'
+
+  document.getElementById('backdrop').addEventListener('click', function () {
+    window.location.href = './receive.html'
+  })
 }
 
 function receiveCode() {
   i0.readOnly = true
 
   var recebido = false
-  // Look up the note
-
   var mensg = ''
+  var codigo = `${newCod[0]}${newCod[1]}${newCod[2]}${newCod[3]}`
 
-  var query = firebase.database().ref(dbName).orderByKey();
-  //var query = firebase.database().ref("dadosTeste").orderByKey();
-  //var query = firebase.database().ref("dados").orderByKey();
-  query.once("value").then(function (snapshot) {
-
-    snapshot.forEach(function (childSnapshot) {
-      var db = childSnapshot.val()
-      var buscId = `${newCod[0]}${newCod[1]}${newCod[2]}${newCod[3]}`
-
-      if (db.ID == buscId) {
-        mensg = db.Mensagem
-
-        // Delete the note from the database
-        firebase.database().ref(dbName).child(childSnapshot.key).remove()
-        //firebase.database().ref('dados').child(childSnapshot.key).remove()
-        //firebase.database().ref('dados').child(childSnapshot.key).remove()
-
-        recebido = true
-        naoEncontrado = false
-        //console.log('this error stays')
-        //return value === db.ID
-      }
-    })
-
-    if (naoEncontrado) {
-      document.getElementById('popup').style.display = 'flex'
-      document.getElementById('backdrop').style.display = 'block'
-
-      document.getElementById('backdrop').addEventListener('click', function(){
-        window.location.href = './receive.html'
-      })
+  rpc('receber', { codigo: codigo }).then(function (texto) {
+    if (typeof texto === 'string') {
+      mensg = texto
+      recebido = true
+      naoEncontrado = false
     }
+
+    if (naoEncontrado) showNotFound()
+  }).catch(function () {
+    showNotFound()
   })
 
   // Advance the raven frame

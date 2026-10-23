@@ -1,6 +1,6 @@
 # Traveling Raven
 
-A static site inspired by messenger ravens: you write a note, get a 4-digit code, and someone else uses that code to read the scroll. After it is read, the message disappears.
+A static site inspired by messenger ravens: you write a note, get a 4-character code (`0–9` and `A–Z`), and someone else uses that code to read the scroll. Upper and lower case are the same code. After it is read, the message disappears.
 
 Pages are titled **Raven Traveler**.
 
@@ -11,7 +11,7 @@ Pages are titled **Raven Traveler**.
 
 The home screen has two actions:
 
-- **Send** — write on the scroll. The raven refuses an empty scroll. If there is text, the note is stored and the site shows a 4-digit code.
+- **Send** — write on the scroll. The raven refuses an empty scroll. If there is text, the note is stored and the site shows a 4-character code.
 - **Receive** — enter that code. If the note exists, the scroll opens; if not, you get a not-found warning. The note is deleted after it is read.
 
 Portrait and landscape are the same page. The portrait layout lives in `css/style.css` inside `@media (orientation: portrait)`.
@@ -19,12 +19,13 @@ Portrait and landscape are the same page. The portrait layout lives in `css/styl
 ## Run locally
 
 ```bash
-docker compose up --build
+npx supabase start
+docker compose up
 ```
 
-Site: http://localhost:8080 — emulator UI: http://localhost:4000. On `localhost`, send/receive use the Realtime Database emulator, not production.
+Site: http://localhost:8080. The local database API is on port 54321. On `localhost`, send/receive use that API, not production.
 
-With Compose already running, the send/receive checks use `http://127.0.0.1:8080` and the emulator on port 9000:
+With both already running, the send/receive checks use `http://127.0.0.1:8080` and the local API:
 
 ```bash
 npm ci
@@ -32,9 +33,9 @@ npx playwright install chromium
 npx playwright test
 ```
 
-GitHub Actions runs the same suite on pushes to `master` and on pull requests into `master`. The workflow is `.github/workflows/test.yml`: it starts Compose, then installs Chromium with its system libraries (`--with-deps`, only on the runner).
+GitHub Actions runs the same suite on pushes to `master` and on pull requests into `master`. The workflow is `.github/workflows/test.yml`: it starts the local Supabase stack and Compose, then installs Chromium with its system libraries (`--with-deps`, only on the runner).
 
-Without Docker, open `index.html` (or any static server). Production hosts keep using the live Firebase project in `js/script.js`.
+Without Docker, open `index.html` (or any static server). Send and receive on a public host use the production URL and publishable key in `js/script.js`. Do not copy those values into this file.
 
 ## Layout
 
