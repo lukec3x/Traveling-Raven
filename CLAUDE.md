@@ -4,7 +4,7 @@ Agent-facing doc. `README.md` is for people using the site.
 
 Static site (HTML/CSS/JS, no bundler, no backend). GitHub/domain name: **Traveling Raven**. Page title: **Raven Traveler**. One-shot note: sending creates a 4-digit code; receiving reads the note and deletes it from Firebase Realtime Database.
 
-Language: on-screen copy, HTML comments, and JS comments are English. The Latin block on the home page is intentional. Database field names stay `dados`, `ID`, and `Mensagem`.
+Language: on-screen copy is Portuguese. HTML comments and JS comments are English. The Latin block on the home page is intentional. Database field names stay `dados`, `ID`, and `Mensagem`.
 
 ## Invariants
 
