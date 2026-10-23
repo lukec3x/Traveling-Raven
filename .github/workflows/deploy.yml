@@ -1,0 +1,54 @@
+name: deploy
+
+on:
+  workflow_run:
+    workflows: ["test"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  ftp:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'master'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Upload the site
+        env:
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${FTP_USER}" || -z "${FTP_PASSWORD}" ]]; then
+            echo "Add the FTP_USER and FTP_PASSWORD secrets in the repository settings."
+            exit 1
+          fi
+          # FTP login opens in www/. The public site is the domain folder inside it.
+          BASE="ftp://travelingraven.com.br/travelingraven.com.br"
+          upload() {
+            curl --silent --show-error --fail --ftp-create-dirs --ftp-skip-pasv-ip \
+              --user "${FTP_USER}:${FTP_PASSWORD}" \
+              -T "$1" "$BASE/$1"
+          }
+          for f in index.html send.html receive.html robots.txt css/style.css js/script.js; do
+            upload "$f"
+            echo "ok $f"
+          done
+          while IFS= read -r -d '' f; do
+            upload "$f"
+            echo "ok $f"
+          done < <(find img -type f ! -name '.DS_Store' -print0)
+
+      - name: Check the published home
+        run: |
+          set -euo pipefail
+          curl -fsS --max-time 20 http://travelingraven.com.br/ | grep -q 'href="send.html"'
+          echo "site atualizado"
