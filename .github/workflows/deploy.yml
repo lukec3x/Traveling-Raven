@@ -1,25 +1,18 @@
 name: deploy
 
 on:
-  workflow_run:
-    workflows: ["test"]
-    types: [completed]
+  push:
+    branches: [master]
 
 permissions:
   contents: read
 
 jobs:
   ftp:
-    if: >-
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.head_branch == 'master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/checkout@v7
 
       - name: Upload the site
         env:

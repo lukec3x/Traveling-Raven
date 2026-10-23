@@ -33,7 +33,7 @@ npx playwright install chromium
 npx playwright test
 ```
 
-GitHub Actions runs the same suite on pushes to `master` and on pull requests into `master`. The workflow is `.github/workflows/test.yml`: it starts the local Supabase stack and Compose, then installs Chromium with its system libraries (`--with-deps`, only on the runner).
+GitHub Actions runs the same suite on pull requests into `master`. A push to `master` publishes the site and does not run the suite. The workflow is `.github/workflows/test.yml`: it starts the local Supabase stack and Compose, then installs Chromium with its system libraries (`--with-deps`, only on the runner).
 
 Without Docker, open `index.html` (or any static server). Send and receive on a public host use the production URL and publishable key in `js/script.js`. Do not copy those values into this file.
 

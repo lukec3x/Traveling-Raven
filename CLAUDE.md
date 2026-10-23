@@ -62,12 +62,12 @@ type(optional-scope): short description
 
 Static. GitHub Pages: `https://lukec3x.github.io/Traveling-Raven/`. Domain: `http://travelingraven.com.br`. Edits to HTML/CSS/JS at the repo root are what ships. There is no Pages deploy workflow.
 
-`.github/workflows/deploy.yml` publishes `index.html`, `send.html`, `receive.html`, `robots.txt`, `css/`, `js/`, and `img/` after `test` succeeds on a push to `master`. FTP login lands in `www/`; files go to `www/travelingraven.com.br/`. The login is the `FTP_USER` and `FTP_PASSWORD` repository secrets.
+`.github/workflows/deploy.yml` publishes `index.html`, `send.html`, `receive.html`, `robots.txt`, `css/`, `js/`, and `img/` on a push to `master`. FTP login lands in `www/`; files go to `www/travelingraven.com.br/`. The login is the `FTP_USER` and `FTP_PASSWORD` repository secrets.
 
 Local: `npx supabase start` (API on `:54321`), then `docker compose up` — nginx on `:8080`. Schema lives in `supabase/migrations`.
 
 Send/receive checks run on the host, after both are up: `npm ci`, `npx playwright install chromium`, `npx playwright test`. The suite opens `http://127.0.0.1:8080` only and reads `dados` from `http://127.0.0.1:54321/rest/v1/dados` with the local service role. Screens are found by `data-testid` in the HTML and on the nodes `js/script.js` creates after send and receive.
 
-`.github/workflows/test.yml` runs that suite on `ubuntu-latest` for pushes to `master` and for pull requests into `master`. It starts Supabase, then Compose, waits until `http://127.0.0.1:8080/index.html` and the API on `:54321` both respond, then runs `npm ci`, `npx playwright install --with-deps chromium`, and `npx playwright test`. `--with-deps` is only for the runner. A failed job prints Compose logs and uploads `playwright-report` and `test-results`.
+`.github/workflows/test.yml` runs that suite on `ubuntu-24.04` for pull requests into `master`. A push to `master` does not run it. It starts Supabase, then Compose, waits until `http://127.0.0.1:8080/index.html` and the API on `:54321` both respond, then runs `npm ci`, `npx playwright install --with-deps chromium`, and `npx playwright test`. `--with-deps` is only for the runner. A failed job prints Compose logs and uploads `playwright-report` and `test-results`.
 
 There is no `ai/INDEX.md` and no `*.skills.md`. This file is the canonical agent doc.
