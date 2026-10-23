@@ -1,7 +1,35 @@
 const fs = require('fs')
 const path = require('path')
 const { test, expect } = require('@playwright/test')
-const { clearDados, readDados, findNote } = require('./emulator')
+const { clearDados, readDados, insertNote, findNote } = require('./emulator')
+
+const CODE_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+function codeFrom(indexes) {
+  return indexes.map((index) => CODE_ALPHABET[index]).join('')
+}
+
+function glyphSpill(locator) {
+  return locator.evaluateAll((nodes) =>
+    nodes.map((node) => {
+      const range = document.createRange()
+      range.selectNodeContents(node)
+      if (!node.textContent) return 0
+      const text = range.getBoundingClientRect()
+      const cell = node.getBoundingClientRect()
+      return Math.max(cell.left - text.left, text.right - cell.right, cell.top - text.top, text.bottom - cell.bottom)
+    })
+  )
+}
+
+async function stubRandom(page, indexes) {
+  const sequence = indexes.map((index) => (index + 0.5) / CODE_ALPHABET.length)
+  await page.evaluate((values) => {
+    const original = Math.random
+    let cursor = 0
+    Math.random = () => (cursor < values.length ? values[cursor++] : original())
+  }, sequence)
+}
 
 function layoutOf() {
   return {
@@ -21,7 +49,9 @@ async function blockRemote(page) {
       host === 'fonts.googleapis.com' ||
       host === 'fonts.gstatic.com' ||
       host === 'firebaseio.com' ||
-      host.endsWith('.firebaseio.com')
+      host.endsWith('.firebaseio.com') ||
+      host === 'supabase.co' ||
+      host.endsWith('.supabase.co')
     if (blocked) return route.abort()
     return route.continue()
   })
@@ -57,7 +87,7 @@ async function readCode(page) {
             const texts = [...document.querySelectorAll('[data-testid="code-digit"]')].map((node) =>
               (node.textContent || '').trim()
             )
-            if (texts.length !== 4 || texts.some((text) => !/^\d$/.test(text))) return ''
+            if (texts.length !== 4 || texts.some((text) => !/^[0-9A-Z]$/.test(text))) return ''
             return texts.join('')
           })
           .catch(() => '')
@@ -65,7 +95,7 @@ async function readCode(page) {
       },
       { intervals: [10, 20, 20, 50], timeout: 20_000 }
     )
-    .toMatch(/^\d{4}$/)
+    .toMatch(/^[0-9A-Z]{4}$/)
   return code
 }
 
@@ -132,6 +162,34 @@ test('a note is stored once and a second read is not found', async ({ page, requ
   await expect(page.getByTestId('not-found-popup')).toContainText('Pergaminho não encontrado!')
 })
 
+test('a wide code stays inside the parchment', async ({ page }, testInfo) => {
+  const layout = layoutOf(testInfo)
+  await openHome(page, layout)
+  await followLink(page, 'receive-link', layout.receive)
+  await assertLoopback(page)
+  await page.getByTestId('receive-code').fill('WMWM')
+  await expect(page.getByTestId('receive-code')).toHaveValue('W M W M')
+  await expect(page.getByTestId('typed-char')).toHaveText(['W', 'M', 'W', 'M'])
+  const spill = await glyphSpill(page.locator('[data-testid="typed-char"]'))
+  expect(spill.every((px) => px <= 1)).toBe(true)
+  await expect(page.getByTestId('not-found-popup')).toBeVisible()
+})
+
+test('wide letters stay inside the code slots', async ({ page, request }, testInfo) => {
+  const layout = layoutOf(testInfo)
+  await openHome(page, layout)
+  await followLink(page, 'send-link', layout.send)
+  await stubRandom(page, [32, 32, 32, 32])
+  await page.getByTestId('message-input').fill('wide letters')
+  await assertLoopback(page)
+  await page.getByTestId('send-button').click()
+  const code = await readCode(page)
+  expect(code).toBe('WWWW')
+  const spill = await glyphSpill(page.locator('[data-testid="code-digit"]'))
+  expect(spill.every((px) => px <= 1)).toBe(true)
+  expect(findNote(await readDados(request), 'WWWW')).not.toBeNull()
+})
+
 test('an unknown code opens the not-found popup', async ({ page }, testInfo) => {
   const layout = layoutOf(testInfo)
   await openHome(page, layout)
@@ -141,6 +199,7 @@ test('an unknown code opens the not-found popup', async ({ page }, testInfo) => 
   await expect(page.getByTestId('not-found-popup')).toBeVisible()
   await expect(page.getByTestId('not-found-popup')).toContainText('Pergaminho não encontrado!')
   await expect(page.getByTestId('received-message')).toHaveCount(0)
+  await expect(page.getByText('Informe o código de 4 caracteres:')).toBeVisible()
   await expect(page).toHaveTitle('Receber | Raven Traveler')
 })
 
@@ -159,30 +218,59 @@ test('retired portuguese urls do not serve a screen', async ({ page }) => {
 
 test('a leading zero is stored and read as four characters', async ({ page, request }, testInfo) => {
   const layout = layoutOf(testInfo)
+  const expected = codeFrom([0, 10, 11, 12])
   await openHome(page, layout)
   await followLink(page, 'send-link', layout.send)
-  await page.evaluate(() => {
-    const original = Math.random
-    const sequence = [0, 0.1, 0.2, 0.3]
-    let index = 0
-    Math.random = () => (index < sequence.length ? sequence[index++] : original())
-  })
+  await stubRandom(page, [0, 10, 11, 12])
   await page.getByTestId('message-input').fill('zero')
   await assertLoopback(page)
   await page.getByTestId('send-button').click()
   const code = await readCode(page)
-  expect(code).toBe('0123')
+  expect(code).toBe(expected)
+  expect(code.startsWith('0')).toBe(true)
+  expect(code).toMatch(/[A-Z]/)
   const note = findNote(await readDados(request), code)
   expect(note).not.toBeNull()
-  expect(note.ID).toBe('0123')
+  expect(note.ID).toBe(expected)
   expect(note.ID).toHaveLength(4)
 
   await page.waitForURL(layout.homePattern, { timeout: 15_000 })
   await page.waitForLoadState('load')
   await followLink(page, 'receive-link', layout.receive)
   await assertLoopback(page)
-  await page.getByTestId('receive-code').fill(code)
+  await page.getByTestId('receive-code').fill(code.toLowerCase())
   await expect(page.getByTestId('received-message')).toHaveValue('zero', { timeout: 15_000 })
+})
+
+test('a taken code is skipped and receive deletes only that note', async ({ page, request }, testInfo) => {
+  const layout = layoutOf(testInfo)
+  const taken = codeFrom([0, 10, 11, 12])
+  const replacement = codeFrom([1, 2, 3, 4])
+  await insertNote(request, taken, 'already there')
+
+  await openHome(page, layout)
+  await followLink(page, 'send-link', layout.send)
+  await stubRandom(page, [0, 10, 11, 12, 1, 2, 3, 4])
+  await page.getByTestId('message-input').fill('second scroll')
+  await assertLoopback(page)
+  await page.getByTestId('send-button').click()
+  const code = await readCode(page)
+  expect(code).toBe(replacement)
+
+  const stored = await readDados(request)
+  expect(findNote(stored, taken).Mensagem).toBe('already there')
+  expect(findNote(stored, replacement).Mensagem).toBe('second scroll')
+
+  await page.waitForURL(layout.homePattern, { timeout: 15_000 })
+  await page.waitForLoadState('load')
+  await followLink(page, 'receive-link', layout.receive)
+  await assertLoopback(page)
+  await page.getByTestId('receive-code').fill(replacement)
+  await expect(page.getByTestId('received-message')).toHaveValue('second scroll', { timeout: 15_000 })
+
+  const left = await readDados(request)
+  expect(findNote(left, replacement)).toBeNull()
+  expect(findNote(left, taken).Mensagem).toBe('already there')
 })
 
 test('a refused push opens the slate and stops the raven', async ({ page, request }, testInfo) => {
@@ -200,9 +288,7 @@ test('a refused push opens the slate and stops the raven', async ({ page, reques
   await openHome(page, layout)
   await followLink(page, 'send-link', layout.send)
   await page.evaluate(() => {
-    firebase.database.Reference.prototype.push = function () {
-      return Promise.reject(new Error('push refused'))
-    }
+    window.fetch = () => Promise.reject(new Error('push refused'))
   })
   await page.getByTestId('message-input').fill('lost scroll')
   await assertLoopback(page)

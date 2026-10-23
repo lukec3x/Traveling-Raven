@@ -12,7 +12,7 @@ permissions:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
 
@@ -21,22 +21,29 @@ jobs:
           node-version: 22
           cache: npm
 
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
       - run: npm ci
 
       - run: npx playwright install --with-deps chromium
 
-      - run: docker compose up --build -d
+      - run: supabase start
 
-      - name: Wait for the site and the emulator
+      - run: docker compose up -d
+
+      - name: Wait for the site and the database
         run: |
           for _ in $(seq 1 60); do
             if curl -fsS http://127.0.0.1:8080/index.html >/dev/null \
-              && curl -fsS -o /dev/null -X DELETE "http://127.0.0.1:9000/dados.json?ns=raven-traveler"; then
+              && curl -s -o /dev/null --connect-timeout 2 http://127.0.0.1:54321/rest/v1/; then
               exit 0
             fi
             sleep 2
           done
           docker compose logs
+          docker ps
           exit 1
 
       - run: npx playwright test
