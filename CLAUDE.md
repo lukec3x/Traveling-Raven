@@ -62,7 +62,7 @@ type(optional-scope): short description
 
 Static. GitHub Pages: `https://lukec3x.github.io/Traveling-Raven/`. Domain: `http://travelingraven.com.br`. Edits to HTML/CSS/JS at the repo root are what ships. There is no Pages deploy workflow.
 
-`.github/workflows/deploy.yml` publishes `index.html`, `send.html`, `receive.html`, `robots.txt`, `css/`, `js/`, and `img/` after `test` succeeds on a push to `master`. FTP login lands in `www/`; files go to `www/travelingraven.com.br/`. The login is the `FTP_USER` and `FTP_PASSWORD` repository secrets. `deploy.zsh` does the same upload from a machine.
+`.github/workflows/deploy.yml` publishes `index.html`, `send.html`, `receive.html`, `robots.txt`, `css/`, `js/`, and `img/` after `test` succeeds on a push to `master`. FTP login lands in `www/`; files go to `www/travelingraven.com.br/`. The login is the `FTP_USER` and `FTP_PASSWORD` repository secrets.
 
 Local: `npx supabase start` (API on `:54321`), then `docker compose up` — nginx on `:8080`. Schema lives in `supabase/migrations`.
 
