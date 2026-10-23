@@ -133,9 +133,7 @@ div#popup > img#angryRaven {
     left: 140px;
 }
 div#backdrop {
-    filter: alpha(opacity = 60);
-            opacity: .60;
-    background-color: #000;
+    background-color: rgba(0, 0, 0, .60);
     position: fixed;
     display: none;
     /*display: block;*/
@@ -146,8 +144,10 @@ div#backdrop {
     top: 0%;
 }
 div#backdrop > a {
-    float: right;
-    margin: 7px;
+    position: fixed;
+    top: 7px;
+    right: 7px;
+    z-index: 1003;
 }
 
 main#sendReceive {

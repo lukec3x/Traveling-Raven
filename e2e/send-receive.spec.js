@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 const { test, expect } = require('@playwright/test')
 const { clearDados, readDados, findNote } = require('./emulator')
 
@@ -181,4 +183,62 @@ test('a leading zero is stored and read as four characters', async ({ page, requ
   await assertLoopback(page)
   await page.getByTestId('receive-code').fill(code)
   await expect(page.getByTestId('received-message')).toHaveValue('zero', { timeout: 15_000 })
+})
+
+test('a refused push opens the slate and stops the raven', async ({ page, request }, testInfo) => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'script.js'), 'utf8')
+  expect(source).not.toMatch(/\b(alert|confirm|prompt)\b/)
+
+  const layout = layoutOf(testInfo)
+  const expectedLeft = testInfo.project.name === 'portrait' ? '88%' : '84%'
+  let nativeDialog = ''
+  page.on('dialog', async (dialog) => {
+    nativeDialog = dialog.message()
+    await dialog.dismiss()
+  })
+
+  await openHome(page, layout)
+  await followLink(page, 'send-link', layout.send)
+  await page.evaluate(() => {
+    firebase.database.Reference.prototype.push = function () {
+      return Promise.reject(new Error('push refused'))
+    }
+  })
+  await page.getByTestId('message-input').fill('lost scroll')
+  await assertLoopback(page)
+  await page.getByTestId('send-button').click()
+
+  const slate = page.getByTestId('send-error-popup')
+  await expect(slate).toBeVisible()
+  await expect(slate).toContainText('O corvo não conseguiu entregar o pergaminho!')
+  await expect(page.getByTestId('empty-popup')).toHaveCount(0)
+  await expect(page.getByTestId('popup-backdrop')).toBeVisible()
+  expect(await readDados(request)).toBeNull()
+  expect(nativeDialog).toBe('')
+  expect(new URL(page.url()).pathname).toBe('/send.html')
+  await expect(page.getByTestId('message-input')).toHaveCount(0)
+  const digits = page.getByTestId('code-digit')
+  await expect(digits).toHaveCount(4)
+  expect((await digits.allTextContents()).map((text) => text.trim())).toEqual(['', '', '', ''])
+  await expect(page.locator('#codeArea')).toBeHidden()
+
+  const raven = page.locator('#ravenToLeft')
+  await expect(raven).toBeHidden()
+  const left = await raven.evaluate((node) => node.style.left)
+  await page.waitForTimeout(150)
+  const leftLater = await raven.evaluate((node) => node.style.left)
+  expect(left).toBe(expectedLeft)
+  expect(leftLater).toBe(left)
+
+  // The slate sits in the middle of the page, over the backdrop's center.
+  await page.getByTestId('popup-backdrop').click({ position: { x: 20, y: 20 } })
+  await expect(slate).toBeHidden()
+  await expect(page.getByTestId('popup-backdrop')).toBeHidden()
+  expect(new URL(page.url()).pathname).toBe('/send.html')
+  await expect(page.getByTestId('message-input')).toHaveCount(0)
+  await expect(slate).toHaveCount(1)
+  await expect(page.locator('a#back')).toHaveCount(1)
+  await expect(raven).toHaveCount(1)
+  expect(await raven.evaluate((node) => node.style.left)).toBe(left)
+  expect(nativeDialog).toBe('')
 })

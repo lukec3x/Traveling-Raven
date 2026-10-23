@@ -24,7 +24,6 @@ var naoEncontrado = true
 
 function checkSend() {
   if (document.querySelector('div#scroll > textarea').value == '') {
-    //alert('The raven refuses to carry an empty scroll!')
     document.getElementById('popup').style.display = 'flex'
     document.getElementById('backdrop').style.display = 'block'
   } else
@@ -111,6 +110,15 @@ function send() {
   document.querySelector('main > section > div').appendChild(obj7)
 
   var recebido = false
+  var sendFailed = false
+  var flight = null
+
+  function stopFailedSend() {
+    sendFailed = true
+    clearInterval(flight)
+    obj1.style.display = 'none'
+    document.getElementById('codeArea').style.display = 'none'
+  }
 
   firebase.database().ref(dbName).push({
     //firebase.database().ref('dadosTeste').push({
@@ -127,13 +135,22 @@ function send() {
     obj7.innerText = numLista[3]
     recebido = true
   }).catch(function (error) {
-    alert(error)
+    stopFailedSend()
+    var popup = document.getElementById('popup')
+    popup.dataset.testid = 'send-error-popup'
+    popup.querySelector('p').innerText = 'O corvo não conseguiu entregar o pergaminho!'
+    popup.style.display = 'flex'
+    document.getElementById('backdrop').style.display = 'block'
     console.error(error)
   })
 
   // Advance the raven frame
   var frames = 100 // In use: 100
-  var myvar = setInterval(function () {
+  flight = setInterval(function () {
+    if (sendFailed) {
+      clearInterval(flight)
+      return
+    }
     obj1.style.left = `${i}%`
     i--
 
@@ -179,8 +196,6 @@ const formatCode = () => {
 }
 
 function receiveCode() {
-  //alert('call the raven')
-
   i0.readOnly = true
 
   var recebido = false
