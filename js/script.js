@@ -1,10 +1,10 @@
-// Local API from `supabase start`. Production URL and publishable key stay empty
-// until that project exists. An empty pair fails the send instead of calling loopback.
+// Local API from `supabase start`. Any other host uses the linked production project.
+// An empty pair fails the send instead of calling loopback.
 var localSupabaseUrl = 'http://127.0.0.1:54321'
 var localSupabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0'
 
-var productionSupabaseUrl = ''
-var productionSupabaseKey = ''
+var productionSupabaseUrl = 'https://xcfetfqmpfimhqeuqnbq.supabase.co'
+var productionSupabaseKey = 'sb_publishable_dBgwe-IAorbj8nOd8DigVA_CKHE6gxm'
 
 var supabaseUrl = localSupabaseUrl
 var supabaseKey = localSupabaseKey

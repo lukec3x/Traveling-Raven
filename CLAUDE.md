@@ -14,7 +14,7 @@ Language: on-screen copy is Portuguese. HTML comments and JS comments are Englis
 - Receive calls `receber`, which deletes only the matching row and returns its `Mensagem`. A code works once. `anon` cannot read or list the table. The publishable key may only execute `enviar` and `receber`.
 - Shared behavior lives only in `js/script.js`. Each screen is one HTML file. Portrait and landscape are CSS, not a second page.
 - Portrait rules are the `@media (orientation: portrait)` block at the end of `css/style.css`. There is no orientation redirect and no WURFL script.
-- The browser calls PostgREST with `fetch`. There is no database SDK. Home still includes `script.js`. On `localhost` / `127.0.0.1`, the client uses `http://127.0.0.1:54321` and the local anon key. Any other host uses the production URL and publishable key in `js/script.js`. Those two stay empty until a Supabase project exists, and a send then fails onto the slate.
+- The browser calls PostgREST with `fetch`. There is no database SDK. Home still includes `script.js`. On `localhost` / `127.0.0.1`, the client uses `http://127.0.0.1:54321` and the local anon key. Any other host uses the production URL and publishable key in `js/script.js`. An empty pair fails the send onto the slate.
 - Do not copy the publishable key, the production URL, or the local demo JWTs into other docs. The service role is not a client credential.
 
 ## Where to change things
