@@ -378,20 +378,21 @@ main#sendReceive section#received div#scroll {
     }
 
     main#sendReceive {
-        --scroll: min(900px, 94vw, 58vh - 210px);
+        --scroll: min(900px, 94vw, 100vh - 160px);
+        position: relative;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: safe center;
         align-items: center;
         display: flex;
         width: 98vw;
-        height: auto;
-        min-height: 100vh;
+        height: 100vh;
         overflow: auto;
     }
     main#sendReceive a#backInFlow {
-        position: static;
-        align-self: flex-start;
-        margin: 12px 0 8px 12px;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        margin: 0;
     }
     main#sendReceive a#backInFlow img {
         width: calc(80px * var(--scroll) / 900px);
@@ -419,6 +420,8 @@ main#sendReceive section#received div#scroll {
         margin-left: 7.7778%;
     }
     main#sendReceive img#ravenToLeft {
+        top: 50%;
+        transform: translateY(-50%);
         width: 120px;
     }
     main#sendReceive section#codeArea > p {
@@ -433,6 +436,8 @@ main#sendReceive section#received div#scroll {
         font-size: 51pt;
     }
     main#sendReceive img#ravenToRight {
+        top: 50%;
+        transform: translateY(-50%);
         width: 120px;
     }
     main#sendReceive section#codeArea div#codeEntry {
