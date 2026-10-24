@@ -406,6 +406,9 @@ main#sendReceive section#received div#scroll {
     main#sendReceive section#compose a {
         margin: 10px 0 20px calc(85px * var(--scroll) / 900px);
     }
+    main#sendReceive section#compose a:hover {
+        margin-bottom: 18px;
+    }
     main#sendReceive section#compose a img {
         width: calc(160px * var(--scroll) / 900px);
     }
@@ -448,5 +451,28 @@ main#sendReceive section#received div#scroll {
         font-size: 16px;
         margin: 0;
         width: 100%;
+    }
+
+    div#popup {
+        --slate: min(900px, 94vw);
+        width: var(--slate);
+        height: calc(var(--slate) / 2);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-sizing: border-box;
+        padding: 0 12%;
+    }
+    div#popup > p {
+        width: 100%;
+        min-width: 0;
+        text-align: center;
+        line-height: 1.15;
+        font-size: calc(40pt * var(--slate) / 900px);
+    }
+    div#popup > img#angryRaven {
+        height: calc(180px * var(--slate) / 900px);
+        top: calc(-126px * var(--slate) / 900px);
+        left: calc(250px * var(--slate) / 900px);
     }
 }
