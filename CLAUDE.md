@@ -32,7 +32,7 @@ Send and receive use `main#sendReceive`. The home `main` has no id. Back and the
 
 ## JS flows
 
-**Send** — `checkSend()` → empty textarea shows a popup (`#popup` / `#backdrop`); otherwise `send()`: draw 4 characters, clear main, animate `ravenToLeft.gif` right to left, call `enviar`, show the characters that were stored, then redirect to `index.html`.
+**Send** — `checkSend()` → empty textarea shows a popup (`#popup` / `#backdrop`); otherwise `send()`: draw 4 characters, clear main, animate `ravenToLeft.gif` right to left, call `enviar`, show the characters that were stored, then redirect to `index.html`. A button under the digits copies those four characters with no spaces. Hovering it shows the pointer and `img/copiar-hover.png`. A successful copy shows the tooltip `Código copiado!`. A failed copy opens the slate.
 
 **Receive** — `#i0` + `formatCode()` keeps letters and digits, uppercases, and formats with spaces (`A B 1 2`, `maxlength="7"`). At 4 characters it calls `receiveCode()`: input becomes `readOnly`, animates `ravenToRight`, calls `receber`. Success builds `#received` + a readonly textarea. Failure: popup. Clicking the overlay reloads `receive.html`. `ab12` matches `AB12`.
 

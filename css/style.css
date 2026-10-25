@@ -328,7 +328,8 @@ main#sendReceive section#codeArea div#codeDigits {
 
     width: 100px;
     height: 40px;
-    
+    flex-shrink: 0;
+
     background-image: url(../img/fundoCod.png);
     background-repeat: no-repeat;
     background-size: contain;
@@ -343,6 +344,60 @@ main#sendReceive section#codeArea div#codeDigits > div {
     color: #000;
     font-family: 'Indie Flower', cursive;
     font-size: 17pt;
+}
+main#sendReceive section#codeArea button#copyCode {
+    position: relative;
+    margin-top: 12px;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+main#sendReceive section#codeArea button#copyCode img {
+    height: 48px;
+    width: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+main#sendReceive section#codeArea button#copyCode span {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 6px);
+    transform: translateX(-50%);
+    padding: 2px 8px;
+    background: #21170b;
+    color: #fff;
+    font-family: 'Indie Flower', cursive;
+    font-size: 14pt;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+}
+main#sendReceive section#codeArea button#copyCode img + img {
+    display: none;
+}
+main#sendReceive section#codeArea button#copyCode:hover,
+main#sendReceive section#codeArea button#copyCode:focus-visible {
+    cursor: pointer;
+}
+main#sendReceive section#codeArea button#copyCode:hover img:first-of-type,
+main#sendReceive section#codeArea button#copyCode:focus-visible img:first-of-type {
+    display: none;
+}
+main#sendReceive section#codeArea button#copyCode:hover img + img,
+main#sendReceive section#codeArea button#copyCode:focus-visible img + img {
+    display: block;
+}
+main#sendReceive section#codeArea button#copyCode.copied span {
+    display: block;
+}
+@media (max-height: 700px) {
+    main#sendReceive section#codeArea button#copyCode span {
+        top: auto;
+        bottom: calc(100% + 6px);
+    }
 }
 
 /* --------------------- E N D   P A R T 2   S E N D --------------------- */
@@ -437,6 +492,12 @@ main#sendReceive section#received div#scroll {
     }
     main#sendReceive section#codeArea div#codeDigits > div {
         font-size: 51pt;
+    }
+    main#sendReceive section#codeArea button#copyCode {
+        margin-top: 8px;
+    }
+    main#sendReceive section#codeArea button#copyCode img {
+        height: 72px;
     }
     main#sendReceive img#ravenToRight {
         top: 50%;
