@@ -146,6 +146,48 @@ function send() {
     if (error) console.error(error)
   }
 
+  function showCopyStatus(text) {
+    var popup = document.getElementById('popup')
+    popup.querySelector('p').innerText = text
+    popup.style.display = 'flex'
+    document.getElementById('backdrop').style.display = 'block'
+  }
+
+  function copyCode() {
+    var code = obj4.textContent + obj5.textContent + obj6.textContent + obj7.textContent
+    var write = navigator.clipboard && window.isSecureContext
+      ? navigator.clipboard.writeText(code)
+      : Promise.reject(new Error('clipboard unavailable'))
+    write.then(function () {
+      var hint = document.querySelector('#copyCode span')
+      hint.innerText = 'Código copiado!'
+      document.getElementById('copyCode').classList.add('copied')
+    }).catch(function () {
+      showCopyStatus('Não foi possível copiar.')
+    })
+  }
+
+  function showCopyButton() {
+    var button = document.createElement('button')
+    button.type = 'button'
+    button.id = 'copyCode'
+    button.dataset.testid = 'copy-code'
+    button.setAttribute('aria-label', 'Copiar o código')
+    var icon = document.createElement('img')
+    icon.src = './img/copiar.png'
+    icon.alt = ''
+    button.appendChild(icon)
+    var hoverIcon = document.createElement('img')
+    hoverIcon.src = './img/copiar-hover.png'
+    hoverIcon.alt = ''
+    button.appendChild(hoverIcon)
+    var hint = document.createElement('span')
+    hint.setAttribute('aria-live', 'polite')
+    button.appendChild(hint)
+    button.addEventListener('click', copyCode)
+    document.getElementById('codeArea').appendChild(button)
+  }
+
   function trySend() {
     if (sendFailed) return
     if (tries >= 20) {
@@ -162,6 +204,7 @@ function send() {
         obj6.innerText = attempt.chars[2]
         obj7.innerText = attempt.chars[3]
         recebido = true
+        showCopyButton()
         return
       }
       trySend()
