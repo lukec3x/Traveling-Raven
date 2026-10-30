@@ -59,6 +59,26 @@ function closePopup() {
   document.getElementById('backdrop').style.display = 'none'
 }
 
+function showSpeedButton(onSpeed) {
+  var main = document.getElementById('sendReceive')
+  if (!main || document.getElementById('speedRaven')) return
+  var button = document.createElement('button')
+  button.type = 'button'
+  button.id = 'speedRaven'
+  button.dataset.testid = 'speed-raven'
+  button.setAttribute('aria-label', 'Adiantar o corvo')
+  var icon = document.createElement('img')
+  icon.src = './img/adiantar.png'
+  icon.alt = ''
+  button.appendChild(icon)
+  var hoverIcon = document.createElement('img')
+  hoverIcon.src = './img/adiantar-hover.png'
+  hoverIcon.alt = ''
+  button.appendChild(hoverIcon)
+  button.addEventListener('click', onSpeed)
+  main.appendChild(button)
+}
+
 function send() {
   // Read the textarea before it is cleared
   var msg = document.querySelector('div#scroll textarea').value
@@ -205,6 +225,7 @@ function send() {
         obj7.innerText = attempt.chars[3]
         recebido = true
         showCopyButton()
+        if (i > 2) showSpeedButton(speedSend)
         return
       }
       trySend()
@@ -214,11 +235,12 @@ function send() {
     })
   }
 
-  trySend()
-
-  // Advance the raven frame
+  // Advance the raven frame. The first interval keeps frames; a click restarts it.
   var frames = 100 // In use: 100
-  flight = setInterval(function () {
+  var delay = frames
+  var sped = false
+
+  function stepSend() {
     if (sendFailed) {
       clearInterval(flight)
       return
@@ -231,7 +253,22 @@ function send() {
     } else if (recebido == false && i == 1) {
       i = 88
     }
-  }, frames)
+  }
+
+  function armSend() {
+    flight = setInterval(stepSend, delay)
+  }
+
+  function speedSend() {
+    if (sped) return
+    sped = true
+    delay = Math.round(frames / 4)
+    clearInterval(flight)
+    armSend()
+  }
+
+  armSend()
+  trySend()
 }
 
 var i0 = document.getElementById('i0')
@@ -281,31 +318,23 @@ function receiveCode() {
   var mensg = ''
   var codigo = `${newCod[0]}${newCod[1]}${newCod[2]}${newCod[3]}`
 
-  rpc('receber', { codigo: codigo }).then(function (texto) {
-    if (typeof texto === 'string') {
-      mensg = texto
-      recebido = true
-      naoEncontrado = false
-    }
-
-    if (naoEncontrado) showNotFound()
-  }).catch(function () {
-    showNotFound()
-  })
-
-  // Advance the raven frame
+  // Advance the raven frame. The first interval keeps frames; a click restarts it.
   var frames = 60 // In use: 60
+  var delay = frames
+  var sped = false
   var i = 1
+  var flight = null
   var raven = document.getElementById('ravenToRight')
 
   document.getElementById('ravenWaiting').style.display = 'none'
   raven.style.display = 'inline-block'
 
-  var myvar = setInterval(function () {
+  function stepReceive() {
     raven.style.left = `${i}%`
     i++
 
     if (recebido == true && i == 90) {
+      clearInterval(flight)
       // Swap the screen for the received scroll
       var main = document.getElementById('sendReceive')
       main.innerHTML = ''
@@ -337,5 +366,32 @@ function receiveCode() {
     } else if (recebido == false && i == 90) {
       i = 1
     }
-  }, frames)
+  }
+
+  function armReceive() {
+    flight = setInterval(stepReceive, delay)
+  }
+
+  function speedReceive() {
+    if (sped) return
+    sped = true
+    delay = Math.round(frames / 4)
+    clearInterval(flight)
+    armReceive()
+  }
+
+  armReceive()
+
+  rpc('receber', { codigo: codigo }).then(function (texto) {
+    if (typeof texto === 'string') {
+      mensg = texto
+      recebido = true
+      naoEncontrado = false
+      if (i < 89) showSpeedButton(speedReceive)
+    }
+
+    if (naoEncontrado) showNotFound()
+  }).catch(function () {
+    showNotFound()
+  })
 }

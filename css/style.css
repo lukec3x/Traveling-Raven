@@ -400,6 +400,38 @@ main#sendReceive section#codeArea button#copyCode.copied span {
     }
 }
 
+main#sendReceive button#speedRaven {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+main#sendReceive button#speedRaven img {
+    height: 48px;
+    width: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+main#sendReceive button#speedRaven img + img {
+    display: none;
+}
+main#sendReceive button#speedRaven:hover,
+main#sendReceive button#speedRaven:focus-visible {
+    cursor: pointer;
+}
+main#sendReceive button#speedRaven:hover img:first-of-type,
+main#sendReceive button#speedRaven:focus-visible img:first-of-type {
+    display: none;
+}
+main#sendReceive button#speedRaven:hover img + img,
+main#sendReceive button#speedRaven:focus-visible img + img {
+    display: block;
+}
+
 /* --------------------- E N D   P A R T 2   S E N D --------------------- */
 
 /* --------------------- P A R T 2   R E C E I V E --------------------- */
@@ -497,6 +529,13 @@ main#sendReceive section#received div#scroll {
         margin-top: 8px;
     }
     main#sendReceive section#codeArea button#copyCode img {
+        height: 72px;
+    }
+    main#sendReceive button#speedRaven {
+        right: 16px;
+        bottom: 16px;
+    }
+    main#sendReceive button#speedRaven img {
         height: 72px;
     }
     main#sendReceive img#ravenToRight {

@@ -198,6 +198,7 @@ test('an unknown code opens the not-found popup', async ({ page }, testInfo) => 
   await page.getByTestId('receive-code').fill('0000')
   await expect(page.getByTestId('not-found-popup')).toBeVisible()
   await expect(page.getByTestId('not-found-popup')).toContainText('Pergaminho não encontrado!')
+  await expect(page.getByTestId('speed-raven')).toHaveCount(0)
   await expect(page.getByTestId('received-message')).toHaveCount(0)
   await expect(page.getByText('Informe o código de 4 caracteres:')).toBeVisible()
   await expect(page).toHaveTitle('Receber | Raven Traveler')
@@ -307,6 +308,7 @@ test('a refused push opens the slate and stops the raven', async ({ page, reques
   await expect(digits).toHaveCount(4)
   expect((await digits.allTextContents()).map((text) => text.trim())).toEqual(['', '', '', ''])
   await expect(page.locator('#codeArea')).toBeHidden()
+  await expect(page.getByTestId('speed-raven')).toHaveCount(0)
 
   const raven = page.locator('#ravenToLeft')
   await expect(raven).toBeHidden()
@@ -383,4 +385,124 @@ test('a refused clipboard keeps the digits and opens the slate', async ({ page, 
   await expect(page.getByTestId('copy-code').locator('span')).toBeHidden()
   await expect(page.locator('#angryRaven')).toBeVisible()
   await expect(page.getByTestId('code-digit')).toHaveText(expected.split(''))
+})
+
+function holdRpc(page, name) {
+  let release
+  const gate = new Promise((resolve) => {
+    release = resolve
+  })
+  return page.route('**/rest/v1/rpc/' + name, async (route) => {
+    await gate
+    await route.continue()
+  }).then(() => release)
+}
+
+async function expectBottomCorner(button) {
+  const place = await button.evaluate((node) => {
+    const buttonBox = node.getBoundingClientRect()
+    const screen = document.getElementById('sendReceive').getBoundingClientRect()
+    return {
+      rightGap: screen.right - buttonBox.right,
+      bottomGap: screen.bottom - buttonBox.bottom,
+      leftGap: buttonBox.left - screen.left,
+      topGap: buttonBox.top - screen.top,
+    }
+  })
+  expect(place.rightGap).toBeGreaterThan(8)
+  expect(place.rightGap).toBeLessThan(40)
+  expect(place.bottomGap).toBeGreaterThan(8)
+  expect(place.bottomGap).toBeLessThan(40)
+  expect(place.leftGap).toBeGreaterThan(place.rightGap)
+  expect(place.topGap).toBeGreaterThan(place.bottomGap)
+}
+
+async function stepsTaken(locator, sign) {
+  await expect.poll(async () => locator.evaluate((node) => node.style.left)).toMatch(/%/)
+  const start = parseFloat(await locator.evaluate((node) => node.style.left))
+  const started = Date.now()
+  await expect
+    .poll(
+      async () => {
+        const now = parseFloat(await locator.evaluate((node) => node.style.left))
+        return sign * (now - start)
+      },
+      { timeout: 2000, intervals: [20, 20, 50] }
+    )
+    .toBeGreaterThanOrEqual(4)
+  return Date.now() - started
+}
+
+test('a click speeds the rest of the send flight', async ({ page }, testInfo) => {
+  const layout = layoutOf(testInfo)
+  const release = await holdRpc(page, 'enviar')
+  await openHome(page, layout)
+  await followLink(page, 'send-link', layout.send)
+  await page.getByTestId('message-input').fill('hurry')
+  await assertLoopback(page)
+  await page.getByTestId('send-button').click()
+
+  const button = page.getByTestId('speed-raven')
+  await expect(button).toHaveCount(0)
+  const raven = page.locator('#ravenToLeft')
+  const slow = await stepsTaken(raven, -1)
+  expect(slow).toBeGreaterThanOrEqual(250)
+  expect(slow).toBeLessThan(900)
+  await expect(button).toHaveCount(0)
+
+  release()
+  await expect(button).toBeVisible()
+  await expect(button).toHaveAttribute('aria-label', 'Adiantar o corvo')
+  await expect(button.locator('img').first()).toHaveAttribute('src', './img/adiantar.png')
+  await expect(button.locator('img').nth(1)).toHaveAttribute('src', './img/adiantar-hover.png')
+  await expect(button.locator('img').nth(1)).toBeHidden()
+  await button.hover()
+  await expect(button.locator('img').first()).toBeHidden()
+  await expect(button.locator('img').nth(1)).toBeVisible()
+  await expect(button).toHaveCSS('cursor', 'pointer')
+  const height = testInfo.project.name === 'portrait' ? '72px' : '48px'
+  await expect(button.locator('img').nth(1)).toHaveCSS('height', height)
+  await expectBottomCorner(button)
+
+  const left = parseFloat(await raven.evaluate((node) => node.style.left))
+  const originalMs = Math.max(left - 2, 1) * 100
+  const started = Date.now()
+  await button.click()
+  await page.waitForURL(layout.homePattern, { timeout: 15_000 })
+  expect(Date.now() - started).toBeLessThan(originalMs * 0.75)
+})
+
+test('a click speeds the rest of the receive flight', async ({ page, request }, testInfo) => {
+  const layout = layoutOf(testInfo)
+  await insertNote(request, 'AB12', 'brought back')
+  const release = await holdRpc(page, 'receber')
+  await openHome(page, layout)
+  await followLink(page, 'receive-link', layout.receive)
+  await assertLoopback(page)
+  await page.getByTestId('receive-code').fill('AB12')
+
+  const button = page.getByTestId('speed-raven')
+  await expect(button).toHaveCount(0)
+  const raven = page.locator('#ravenToRight')
+  const slow = await stepsTaken(raven, 1)
+  expect(slow).toBeGreaterThanOrEqual(150)
+  expect(slow).toBeLessThan(700)
+  await expect(button).toHaveCount(0)
+
+  release()
+  await expect(button).toBeVisible()
+  await expect(button).toHaveAttribute('aria-label', 'Adiantar o corvo')
+  await expect(button.locator('img').first()).toHaveAttribute('src', './img/adiantar.png')
+  await expect(button.locator('img').nth(1)).toHaveAttribute('src', './img/adiantar-hover.png')
+  const height = testInfo.project.name === 'portrait' ? '72px' : '48px'
+  await expect(button.locator('img').first()).toHaveCSS('height', height)
+  await expectBottomCorner(button)
+
+  const left = parseFloat(await raven.evaluate((node) => node.style.left))
+  const originalMs = Math.max(89 - left, 1) * 60
+  const started = Date.now()
+  await button.click()
+  await expect(page.getByTestId('received-message')).toHaveValue('brought back', { timeout: 15_000 })
+  expect(Date.now() - started).toBeLessThan(originalMs * 0.75)
+  await expect(button).toHaveCount(0)
 })
