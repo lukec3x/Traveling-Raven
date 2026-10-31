@@ -151,10 +151,21 @@ div#backdrop > a {
 }
 
 main#sendReceive {
+    --raven: 70px;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     display: flex;
+    overflow-x: hidden;
+}
+main#sendReceive div#ravenLane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(100% - var(--raven));
+    overflow: hidden;
+    pointer-events: none;
 }
 main#sendReceive section#compose {
     flex-direction: column;
@@ -213,7 +224,7 @@ main#sendReceive img#ravenToRight {
     position: absolute;
     display: none;
     left: 1%;
-    width: 70px;
+    width: var(--raven);
 
 }
 main#sendReceive img#ravenWaiting {
@@ -275,7 +286,7 @@ main#sendReceive section#rec > p { color: #fff; }
 
 main#sendReceive img#ravenToLeft {
     position: absolute;
-    width: 70px;
+    width: var(--raven);
 }
 
 main#sendReceive a#backInFlow {
@@ -400,6 +411,38 @@ main#sendReceive section#codeArea button#copyCode.copied span {
     }
 }
 
+main#sendReceive button#speedRaven {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+main#sendReceive button#speedRaven img {
+    height: 48px;
+    width: auto;
+    display: block;
+    image-rendering: pixelated;
+}
+main#sendReceive button#speedRaven img + img {
+    display: none;
+}
+main#sendReceive button#speedRaven:hover,
+main#sendReceive button#speedRaven:focus-visible {
+    cursor: pointer;
+}
+main#sendReceive button#speedRaven:hover img:first-of-type,
+main#sendReceive button#speedRaven:focus-visible img:first-of-type {
+    display: none;
+}
+main#sendReceive button#speedRaven:hover img + img,
+main#sendReceive button#speedRaven:focus-visible img + img {
+    display: block;
+}
+
 /* --------------------- E N D   P A R T 2   S E N D --------------------- */
 
 /* --------------------- P A R T 2   R E C E I V E --------------------- */
@@ -439,9 +482,11 @@ main#sendReceive section#received div#scroll {
         justify-content: safe center;
         align-items: center;
         display: flex;
+        --raven: 120px;
         width: 98vw;
         height: 100vh;
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     main#sendReceive a#backInFlow {
         position: absolute;
@@ -480,7 +525,6 @@ main#sendReceive section#received div#scroll {
     main#sendReceive img#ravenToLeft {
         top: 50%;
         transform: translateY(-50%);
-        width: 120px;
     }
     main#sendReceive section#codeArea > p {
         font-size: 35pt;
@@ -499,10 +543,16 @@ main#sendReceive section#received div#scroll {
     main#sendReceive section#codeArea button#copyCode img {
         height: 72px;
     }
+    main#sendReceive button#speedRaven {
+        right: 16px;
+        bottom: 16px;
+    }
+    main#sendReceive button#speedRaven img {
+        height: 72px;
+    }
     main#sendReceive img#ravenToRight {
         top: 50%;
         transform: translateY(-50%);
-        width: 120px;
     }
     main#sendReceive section#codeArea div#codeEntry {
         width: 300px;
