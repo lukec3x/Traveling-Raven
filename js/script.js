@@ -90,7 +90,10 @@ function send() {
   obj1.id = 'ravenToLeft'
   obj1.src = './img/ravenToLeft.gif'
   main.style.position = 'relative'
-  main.appendChild(obj1)
+  var lane = document.createElement('div')
+  lane.id = 'ravenLane'
+  main.appendChild(lane)
+  lane.appendChild(obj1)
 
   var objA = document.createElement('a')
   objA.href = './index.html'
@@ -262,7 +265,7 @@ function send() {
   function speedSend() {
     if (sped) return
     sped = true
-    delay = Math.round(frames / 4)
+    delay = Math.round(frames / 12)
     clearInterval(flight)
     armSend()
   }
@@ -375,7 +378,7 @@ function receiveCode() {
   function speedReceive() {
     if (sped) return
     sped = true
-    delay = Math.round(frames / 4)
+    delay = Math.round(frames / 12)
     clearInterval(flight)
     armReceive()
   }

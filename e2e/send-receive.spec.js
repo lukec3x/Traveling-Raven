@@ -398,6 +398,24 @@ function holdRpc(page, name) {
   }).then(() => release)
 }
 
+async function expectFlightStaysInside(raven) {
+  const gap = await raven.evaluate((node) => {
+    const panel = document.getElementById('sendReceive').getBoundingClientRect()
+    const previous = node.style.left
+    node.style.left = '100%'
+    const atEnd = node.getBoundingClientRect()
+    node.style.left = '0%'
+    const atStart = node.getBoundingClientRect()
+    node.style.left = previous
+    return {
+      end: panel.right - atEnd.right,
+      start: atStart.left - panel.left,
+    }
+  })
+  expect(gap.end).toBeGreaterThanOrEqual(-1)
+  expect(gap.start).toBeGreaterThanOrEqual(-1)
+}
+
 async function expectBottomCorner(button) {
   const place = await button.evaluate((node) => {
     const buttonBox = node.getBoundingClientRect()
@@ -463,6 +481,7 @@ test('a click speeds the rest of the send flight', async ({ page }, testInfo) =>
   const height = testInfo.project.name === 'portrait' ? '72px' : '48px'
   await expect(button.locator('img').nth(1)).toHaveCSS('height', height)
   await expectBottomCorner(button)
+  await expectFlightStaysInside(raven)
 
   const left = parseFloat(await raven.evaluate((node) => node.style.left))
   const originalMs = Math.max(left - 2, 1) * 100
@@ -497,6 +516,7 @@ test('a click speeds the rest of the receive flight', async ({ page, request }, 
   const height = testInfo.project.name === 'portrait' ? '72px' : '48px'
   await expect(button.locator('img').first()).toHaveCSS('height', height)
   await expectBottomCorner(button)
+  await expectFlightStaysInside(raven)
 
   const left = parseFloat(await raven.evaluate((node) => node.style.left))
   const originalMs = Math.max(89 - left, 1) * 60
