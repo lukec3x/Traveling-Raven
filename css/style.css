@@ -164,6 +164,8 @@ main#sendReceive div#ravenLane {
     left: 0;
     height: 100%;
     width: calc(100% - var(--raven));
+    display: flex;
+    align-items: center;
     overflow: hidden;
     pointer-events: none;
 }
