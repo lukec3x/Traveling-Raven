@@ -54,6 +54,30 @@ function checkSend() {
     send()
 }
 
+function writeCode(code) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(code)
+  }
+  return new Promise(function (resolve, reject) {
+    var area = document.createElement('textarea')
+    area.value = code
+    area.setAttribute('readonly', '')
+    area.style.position = 'fixed'
+    area.style.left = '-9999px'
+    document.body.appendChild(area)
+    area.select()
+    var ok = false
+    try {
+      ok = document.execCommand('copy')
+    } catch (error) {
+      ok = false
+    }
+    document.body.removeChild(area)
+    if (ok) resolve()
+    else reject(new Error('clipboard unavailable'))
+  })
+}
+
 function closePopup() {
   document.getElementById('popup').style.display = 'none'
   document.getElementById('backdrop').style.display = 'none'
@@ -178,10 +202,7 @@ function send() {
 
   function copyCode() {
     var code = obj4.textContent + obj5.textContent + obj6.textContent + obj7.textContent
-    var write = navigator.clipboard && window.isSecureContext
-      ? navigator.clipboard.writeText(code)
-      : Promise.reject(new Error('clipboard unavailable'))
-    write.then(function () {
+    writeCode(code).then(function () {
       var hint = document.querySelector('#copyCode span')
       hint.innerText = 'Código copiado!'
       document.getElementById('copyCode').classList.add('copied')

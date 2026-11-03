@@ -387,6 +387,32 @@ test('a refused clipboard keeps the digits and opens the slate', async ({ page, 
   await expect(page.getByTestId('code-digit')).toHaveText(expected.split(''))
 })
 
+test('a click copies the code when the clipboard api is missing', async ({ page }, testInfo) => {
+  const layout = layoutOf(testInfo)
+  const expected = codeFrom([10, 11, 1, 2])
+  await openHome(page, layout)
+  await followLink(page, 'send-link', layout.send)
+  await stubRandom(page, [10, 11, 1, 2])
+  await page.getByTestId('message-input').fill('copy on http')
+  await assertLoopback(page)
+  await page.getByTestId('send-button').click()
+  const code = await readCode(page)
+  expect(code).toBe(expected)
+
+  await page.evaluate(() => {
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined })
+    document.execCommand = (command) => {
+      if (command !== 'copy') return false
+      window.__copied = document.activeElement.value
+      return true
+    }
+  })
+  await page.getByTestId('copy-code').click()
+  expect(await page.evaluate(() => window.__copied)).toBe(expected)
+  await expect(page.getByTestId('copy-code').locator('span')).toHaveText('Código copiado!')
+  await expect(page.locator('#popup')).toBeHidden()
+})
+
 function holdRpc(page, name) {
   let release
   const gate = new Promise((resolve) => {
@@ -414,6 +440,12 @@ async function expectFlightStaysInside(raven) {
   })
   expect(gap.end).toBeGreaterThanOrEqual(-1)
   expect(gap.start).toBeGreaterThanOrEqual(-1)
+  const vertical = await raven.evaluate((node) => {
+    const bird = node.getBoundingClientRect()
+    const panel = document.getElementById('sendReceive').getBoundingClientRect()
+    return Math.abs(bird.top + bird.height / 2 - (panel.top + panel.height / 2))
+  })
+  expect(vertical).toBeLessThan(40)
 }
 
 async function expectBottomCorner(button) {
